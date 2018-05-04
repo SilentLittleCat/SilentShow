@@ -11,6 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'Web\IndexController@index');
+
+Route::get('/test', 'TestController@index');
+
+Route::post('/uploadFile/images', 'UploadFileController@images');
+
+Route::namespace('Web')->prefix('web')->group(function () {
+    Route::get('movies/index', 'MovieController@index');
+
+    Route::get('projects/index', 'ProjectController@index');
 });
+
+//Auth::routes();
+//
+//Route::get('/home', 'HomeController@index')->name('home');

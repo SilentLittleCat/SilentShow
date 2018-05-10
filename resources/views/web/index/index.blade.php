@@ -4,33 +4,24 @@
 <style type="text/css">
     @keyframes caption-animation
     {
-        0%   { color: transparent; bottom: 0px; }
-        25%  { color: transparent; bottom: 0px; }
-        50%  { color: white; bottom: 80px; }
+        0%   { color: transparent; bottom: 20px; }
+        25%  { color: transparent; bottom: 20px; }
+        50%  { color: white; bottom: 60px; }
         100% { color: white; }
     }
 
     @-webkit-keyframes caption-animation /* Safari 与 Chrome */
     {
-        0%   { color: transparent; bottom: 0px; }
-        25%  { color: transparent; bottom: 0px; }
-        50%  { color: white; bottom: 80px; }
+        0%   { color: transparent; bottom: 20px; }
+        25%  { color: transparent; bottom: 20px; }
+        50%  { color: white; bottom: 60px; }
         100% { color: white; }
     }
+
     .carousel-inner .carousel-caption {
-        bottom: 80px;
+        bottom: 60px;
         /*-webkit-animation: caption-animation 5s;*/
         animation: caption-animation 5s;
-    }
-    #index-carousel {
-        margin-top: 60px;
-        background-color: white;
-    }
-    .sg-container {
-        background-color: #333333;
-    }
-    .sg-skills-container, .sg-index-job-content {
-        margin-top: 50px;
     }
     .sg-index-job-item {
         margin: 20px;
@@ -42,8 +33,8 @@
     .sg-skills-item {
         margin: 20px;
         overflow: hidden;
-        width: 300px;
-        height: 300px;
+        width: 200px;
+        height: 200px;
         position: relative;
     }
     .sg-index-job-item img {
@@ -82,9 +73,9 @@
         left: 0px;
         width: 100%;
         height: 100%;
-        font-size: 3em;
+        font-size: 2em;
         text-align: center;
-        line-height: 300px;
+        line-height: 200px;
         color: rgba(255, 255, 255, 1);
         background-color: rgba(0, 0, 0, 0.4);
         transition: all 1s;
@@ -191,113 +182,125 @@
     .sg-hover .sg-line-box-item-up.sg-line-box-right {
         height: 100%;
     }
+    #fp-nav ul li a span {
+        background-color: white !important;
+    }
+    .sg-index-job-content, .sg-skills-container {
+        margin: 0 100px;
+    }
 </style>
 @endsection
 
 @section('content')
     <div class="sg-container">
         @include('share.nav_header')
-        <div id="index-carousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#index-carousel" data-slide-to="0" class="active"></li>
-                <li data-target="#index-carousel" data-slide-to="1"></li>
-                <li data-target="#index-carousel" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="/img/carousel/carousel-1.jpg" alt="First slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1>If the God exits, why does he always keep silent?</h1>
+        <div id="sg-full-page">
+            <div class="section">
+                <div id="index-carousel" class="carousel slide" data-ride="carousel" data-pause="false">
+                    <ol class="carousel-indicators">
+                        <li data-target="#index-carousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#index-carousel" data-slide-to="1"></li>
+                        <li data-target="#index-carousel" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src="/img/carousel/111.jpg" alt="First slide">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h1>If the God exits, why does he always keep silent?</h1>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="/img/carousel/112.jpg" alt="Second slide">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h1>To be, or not to be, that is the question</h1>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="/img/carousel/113.jpg" alt="Third slide">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h1>时无英雄，遂使竖子成名！</h1>
+                            </div>
+                        </div>
                     </div>
+                    <a class="carousel-control-prev" href="#index-carousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#index-carousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="/img/carousel/carousel-2.jpg" alt="Second slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1>To be, or not to be, that is the question</h1>
+            </div>
+            <div class="section">
+                <div class="sg-index-job-content justify-content-center">
+                    <div class="row sg-index-title-container justify-content-center sg-hover-item">
+                        <div class="sg-index-job-title text-center">开发方向</div>
+                        <div class="sg-job-divider sg-gradient-line"></div>
                     </div>
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="/img/carousel/carousel-3.jpg" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1>时无英雄，遂使竖子成名！</h1>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="sg-index-job-item sg-hover-item sg-box-animation">
+                            <div class="sg-index-job-mask">网站设计</div>
+                            <img src="/img/index/job-1.png">
+                        </div>
+                        <div class="sg-index-job-item sg-hover-item sg-box-animation">
+                            <div class="sg-index-job-mask">微信开发</div>
+                            <img src="/img/index/job-2.png">
+                        </div>
+                        <div class="sg-index-job-item sg-hover-item sg-box-animation">
+                            <div class="sg-index-job-mask">后台管理</div>
+                            <img src="/img/index/job-3.png">
+                        </div>
+                        <div class="sg-index-job-item sg-hover-item sg-box-animation">
+                            <div class="sg-index-job-mask">硬件交互</div>
+                            <img src="/img/index/job-4.png">
+                        </div>
                     </div>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#index-carousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#index-carousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-        <div class="sg-index-content container">
-            <div class="sg-index-job-content justify-content-center">
-                <div class="row sg-index-title-container justify-content-center sg-hover-item">
-                    <div class="sg-index-job-title text-center">开发方向</div>
-                    <div class="sg-job-divider sg-gradient-line"></div>
-                </div>
-                <div class="row align-items-center justify-content-center">
-                    <div class="sg-index-job-item sg-hover-item sg-box-animation">
-                        <div class="sg-index-job-mask">网站设计</div>
-                        <img src="/img/index/job-1.png">
+            <div class="section">
+                <div class="sg-skills-container justify-content-center">
+                    <div class="row sg-skills-title-container justify-content-center sg-hover-item">
+                        <div class="sg-skills-title text-center">技能语言</div>
+                        <div class="sg-skills-divider sg-gradient-line"></div>
                     </div>
-                    <div class="sg-index-job-item sg-hover-item sg-box-animation">
-                        <div class="sg-index-job-mask">微信开发</div>
-                        <img src="/img/index/job-2.png">
-                    </div>
-                    <div class="sg-index-job-item sg-hover-item sg-box-animation">
-                        <div class="sg-index-job-mask">后台管理</div>
-                        <img src="/img/index/job-3.png">
-                    </div>
-                    <div class="sg-index-job-item sg-hover-item sg-box-animation">
-                        <div class="sg-index-job-mask">硬件交互</div>
-                        <img src="/img/index/job-4.png">
-                    </div>
-                </div>
-            </div>
-            <div class="sg-skills-container justify-content-center">
-                <div class="row sg-skills-title-container justify-content-center sg-hover-item">
-                    <div class="sg-skills-title text-center">技能语言</div>
-                    <div class="sg-skills-divider sg-gradient-line"></div>
-                </div>
-                <div class="row align-items-center justify-content-center">
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">PHP</div>
-                        <img src="/img/skills/skill-1.png">
-                    </div>
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">Laravel</div>
-                        <img src="/img/skills/skill-2.png">
-                    </div>
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">python</div>
-                        <img src="/img/skills/skill-3.png">
-                    </div>
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">jQuery</div>
-                        <img src="/img/skills/skill-4.png">
-                    </div>
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">Bootstrap</div>
-                        <img src="/img/skills/skill-5.png">
-                    </div>
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">Semantic UI</div>
-                        <img src="/img/skills/skill-6.png">
-                    </div>
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">HTML</div>
-                        <img src="/img/skills/skill-7.png">
-                    </div>
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">CSS</div>
-                        <img src="/img/skills/skill-8.png">
-                    </div>
-                    <div class="sg-skills-item sg-hover-item sg-box-animation">
-                        <div class="sg-skills-mask">Javascript</div>
-                        <img src="/img/skills/skill-9.png">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">PHP</div>
+                            <img src="/img/skills/skill-1.png">
+                        </div>
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">Laravel</div>
+                            <img src="/img/skills/skill-2.png">
+                        </div>
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">python</div>
+                            <img src="/img/skills/skill-3.png">
+                        </div>
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">jQuery</div>
+                            <img src="/img/skills/skill-4.png">
+                        </div>
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">Bootstrap</div>
+                            <img src="/img/skills/skill-5.png">
+                        </div>
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">Semantic UI</div>
+                            <img src="/img/skills/skill-6.png">
+                        </div>
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">HTML</div>
+                            <img src="/img/skills/skill-7.png">
+                        </div>
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">CSS</div>
+                            <img src="/img/skills/skill-8.png">
+                        </div>
+                        <div class="sg-skills-item sg-hover-item sg-box-animation">
+                            <div class="sg-skills-mask">Javascript</div>
+                            <img src="/img/skills/skill-9.png">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -308,13 +311,12 @@
 @section('footer')
 <script type="text/javascript">
     $(function () {
-        $('#index-carousel').carousel();
-        $('#index-carousel').on('slide.bs.carousel', function () {
-
-        }).on('slid.bs.carousel', function () {
-
+        $('#sg-full-page').fullpage({
+            sectionsColor: ['#C63D0F', '#e83e8c', '#FF8C00'],
+            css3: true,
+            navigation: true,
+            continuousVertical: true
         });
-
         $('.sg-hover-item').hover(function () {
             $(this).addClass('sg-hover');
         }, function () {

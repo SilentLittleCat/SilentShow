@@ -97,8 +97,7 @@
     $(function () {
         $('.sg-project-images').slick({
             autoplay: true,
-            dots: true,
-            infinite: false
+            dots: true
         });
 
         // $(window).scroll(function () {

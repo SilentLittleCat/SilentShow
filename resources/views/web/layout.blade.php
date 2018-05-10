@@ -8,11 +8,12 @@
         <title>Silent Show</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        {{--<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">--}}
         <link href="/plugin/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
         <link href="/plugin/star-rating-svg/star-rating-svg.css" rel="stylesheet" type="text/css">
         <link href="/plugin/slick/slick.css" rel="stylesheet" type="text/css">
         <link href="/plugin/slick/slick-theme.css" rel="stylesheet" type="text/css">
+        <link href="/plugin/fullPage/jquery.fullpage.min.css" rel="stylesheet" type="text/css">
         <link href="/css/style.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="/plugin/adminlte/bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="icon" href="/img/icon/icon3.png" sizes="32x32" type="image/png">
@@ -21,6 +22,8 @@
         <script src="/plugin/bootstrap/js/bootstrap.js"></script>
         <script src="/plugin/slick/slick.min.js"></script>
         <script src="/plugin/snap.svg/snap.svg-min.js"></script>
+        <script src="/plugin/jquery-mousewheel/jquery.mousewheel.js"></script>
+        <script src="/plugin/fullPage/jquery.fullpage.extensions.min.js"></script>
         <style type="text/css">
             .sg-footer {
                 height: 50px;
@@ -29,6 +32,7 @@
                 background-color: black;
                 color: white;
                 font-size: 1.2em;
+                width: 100%;
             }
         </style>
         @yield('header')

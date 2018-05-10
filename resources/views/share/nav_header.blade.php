@@ -1,4 +1,7 @@
 <style type="text/css">
+    .sg-header {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
     .sg-header-top-line {
         height: 5px;
         background-color: red;
@@ -31,13 +34,16 @@
             <div class="col-sm-8">
                 <ul class="nav justify-content-center">
                     <li class="nav-item">
+                        <a class="nav-link sg-blue" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link sg-indigo" href="/web/movies/index">电影</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link sg-pink" href="#">相册</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link sg-red" href="#">音乐</a>
+                        <a class="nav-link sg-red" href="/web/music/index">音乐</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link sg-orange" href="#">文章</a>

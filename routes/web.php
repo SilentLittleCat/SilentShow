@@ -21,6 +21,8 @@ Route::namespace('Web')->prefix('web')->group(function () {
     Route::get('movies/index', 'MovieController@index');
 
     Route::get('projects/index', 'ProjectController@index');
+
+    Route::get('music/index', 'MusicController@index');
 });
 
 //Auth::routes();

@@ -11,8 +11,10 @@ class TestController extends Controller
 {
     public function index(Request $request)
     {
-        $res = Storage::disk('upload')->exists('/upload/images/5ad81f017b611.png');
-        dd($res);
+        $path = '/upload/images/20180514/5af97c03bfe72.jpeg';
+        $res = Storage::disk('upload')->exists($path);
+        $res_1 = UploadFile::where('path', $path)->get();
+        dd($res, $res_1);
         return view('test.index');
     }
 }

@@ -79,14 +79,14 @@
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="active treeview">
                     <a href="#">
-                        <i class="fa fa-film"></i><span>电影管理</span>
+                        <i class="fa fa-film"></i><span>知</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
                         <li class="active">
-                            <a href="/admin/movies/index"><i class="fa fa-angle-right"></i>电影列表</a>
+                            <a href="/friends/learn/fun/index"><i class="fa fa-angle-right"></i>趣闻列表</a>
                         </li>
                     </ul>
                 </li>
@@ -95,7 +95,7 @@
     </aside>
 
     <div class="content-wrapper" style="height: 100%; overflow: hidden">
-        <iframe id="main-iframe" src="/admin/movies/index" frameborder="0" width="100%" height="100%"></iframe>
+        <iframe id="main-iframe" src="/friends/learn/fun/index" frameborder="0" width="100%" height="100%"></iframe>
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('admin.layout-content')
 
 @section('header')
     <style type="text/css">

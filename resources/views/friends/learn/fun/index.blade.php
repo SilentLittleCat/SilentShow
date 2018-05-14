@@ -1,4 +1,4 @@
-@extends('admin.layout-content')
+@extends('friends.layout-content')
 
 @section('header')
 <style type="text/css">
@@ -10,7 +10,7 @@
     <section class="content">
         <div class="box container">
             <div class="box-header">
-                <h3 class="box-title">电影列表</h3>
+                <h3 class="box-title">趣闻列表</h3>
             </div>
             <div class="box-tools row">
                 <div class="col-sm-4">
@@ -26,7 +26,7 @@
                 <div class="col-sm-4 pull-right">
                     <div class="btn-group pull-right">
                         <button type="button" class="btn btn-sm btn-danger" id="sg-delete-many">批量删除</button>
-                        <a type="button" class="btn btn-sm btn-success" href="/admin/movies/create">创建</a>
+                        <a type="button" class="btn btn-sm btn-success" href="/friends/learn/fun/create">创建</a>
                     </div>
                 </div>
             </div>
@@ -35,18 +35,14 @@
                     <tbody>
                         <tr>
                             <th><input class="sg-icheck-all" type="checkbox" id="sg-icheck-all"></th>
-                            <th>名称</th>
-                            <th>导演</th>
-                            <th>主演</th>
-                            <th>封面</th>
-                            <th>上映时间</th>
-                            <th>国家</th>
-                            <th>评分</th>
+                            <th>标题</th>
+                            <th>描述</th>
+                            <th>图片</th>
                             <th>操作</th>
                         </tr>
                         @if($list->count() == 0)
                             <tr>
-                                <td colspan="9" class="sg-empty-table-hint">暂无电影！</td>
+                                <td colspan="5" class="sg-empty-table-hint">暂无趣闻！</td>
                             </tr>
                         @else
                             @foreach($list as $item)
@@ -54,23 +50,19 @@
                                     <td>
                                         <input class="sg-icheck" type="checkbox" value="{{ $item->id }}" name="delete_ids[]">
                                     </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->director }}</td>
-                                    <td>{{ $item->actor }}</td>
+                                    <td>{{ $item->title }}</td>
+                                    <td>{{ $item->desp }}</td>
                                     <td>
-                                        @if($item->cover)
-                                            <img src="{{ $item->cover }}" width="50px">
+                                        @if($item->image)
+                                            <img src="{{ $item->image }}" width="50px">
                                         @else
                                             无
                                         @endif
                                     </td>
-                                    <td>{{ $item->date }}</td>
-                                    <td>{{ $item->country }}</td>
-                                    <td>{{ $item->score }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-sm btn-primary" href="/admin/movies/edit?id={{ $item->id }}">编辑</a>
-                                            <a class="btn btn-sm btn-info" href="/admin/movies/detail?id={{ $item->id }}">详情</a>
+                                            <a class="btn btn-sm btn-primary" href="/friends/learn/fun/edit?id={{ $item->id }}">编辑</a>
+                                            <a class="btn btn-sm btn-info" href="/friends/learn/fun/detail?id={{ $item->id }}">详情</a>
                                             <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $item->id }}">删除</button>
                                         </div>
                                     </td>
@@ -97,7 +89,7 @@
     <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="/admin/movies/delete">
+                <form method="POST" action="/friends/learn/fun/delete">
                     {{ csrf_field() }}
                     <input id="delete-input-id" type="hidden" name="id">
 
@@ -116,7 +108,7 @@
     <div class="modal fade" id="delete-many-modal" tabindex="-1" role="dialog" aria-labelledby="delete-many-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="/admin/movies/deleteMany">
+                <form method="POST" action="/friends/learn/fun/deleteMany">
                     {{ csrf_field() }}
                     <input id="delete-many-input-id" type="hidden" name="delete_ids">
 

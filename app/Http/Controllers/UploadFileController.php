@@ -22,7 +22,8 @@ class UploadFileController extends Controller
         $fileList = collect();
         foreach($request->file('files') as $item) {
             $fileName = uniqid() . '.' . $item->extension();
-            $res = $item->storeAs('upload/images', $fileName, 'upload');
+            $date = date("Ymd");
+            $res = $item->storeAs('upload/images' . '/' . $date, $fileName, 'upload');
 
             if($res) {
                 $res = '/' . $res;

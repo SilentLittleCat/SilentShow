@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/login', 'Auth\LoginController@showLoginForm');
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 
 Route::middleware(['auth.silent:admin'])->group(function () {

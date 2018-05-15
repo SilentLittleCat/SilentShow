@@ -47,7 +47,7 @@
                 <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
                     <label class="col-sm-2 col-sm-offset-2 control-label">内容</label>
                     <div class="col-sm-6">
-                        <textarea class="form-control" name="data[content]">{{ $item->content }}</textarea>
+                        <textarea class="form-control" name="data[content]" cols="10">{{ $item->content }}</textarea>
                         @if($errors->has('content'))
                             <span class="help-block">{{ $errors->first('content') }}</span>
                         @endif

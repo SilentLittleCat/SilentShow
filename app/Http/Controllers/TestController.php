@@ -11,10 +11,8 @@ class TestController extends Controller
 {
     public function index(Request $request)
     {
-        $path = '/upload/images/20180514/5af97c03bfe72.jpeg';
-        $res = Storage::disk('upload')->exists($path);
-        $res_1 = UploadFile::where('path', $path)->get();
-        dd($res, $res_1);
+        $item = bcrypt('3141592653');
+        dd($item);
         return view('test.index');
     }
 }

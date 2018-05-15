@@ -12,7 +12,9 @@ class HelloFriendsController extends Controller
     {
         $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
         $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
-        $items = LearnFun::orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get();
+        $items = LearnFun::orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) {
+            $item->image = url($item->image);
+        });
         return response()->json($items->toJson(), 200);
     }
 }

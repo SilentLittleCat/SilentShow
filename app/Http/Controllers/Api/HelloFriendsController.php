@@ -15,6 +15,6 @@ class HelloFriendsController extends Controller
         $items = LearnFun::orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) {
             $item->image = url($item->image);
         });
-        return response()->json($items->toArray(), 200);
+        return response()->json($items, 200);
     }
 }

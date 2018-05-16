@@ -17,6 +17,7 @@
             <form class="form-horizontal" action="/friends/learn/fun/update" method="POST">
                 {{ csrf_field() }}
 
+                <input type="hidden" name="id" value="{{ $item->id }}">
                 <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                     <label class="col-sm-2 col-sm-offset-2 control-label">标题</label>
                     <div class="col-sm-6">

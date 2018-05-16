@@ -19,7 +19,7 @@ class HelloFriendsController extends Controller
     {
         $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
         $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
-        if(!$request->has('id') || ($item = $this->modal->where('id', $request->input('id'))) == null) {
+        if(!$request->has('id') || ($item = $this->modal->where('id', $request->input('id'))->get()) == null) {
             return response()->json([], 200);
         } else {
             return response()->json($item, 200);

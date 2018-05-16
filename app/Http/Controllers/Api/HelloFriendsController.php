@@ -23,7 +23,6 @@ class HelloFriendsController extends Controller
             return response()->json([], 200);
         } else {
             $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
-            echo $item->content;
             $item->image = url($item->image);
             return response()->json($item, 200);
         }

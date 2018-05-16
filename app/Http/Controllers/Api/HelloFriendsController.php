@@ -22,7 +22,6 @@ class HelloFriendsController extends Controller
         if(!$request->has('id') || ($item = $this->modal->find($request->input('id'))) == null) {
             return response()->json([], 200);
         } else {
-            dd($item);
             $item->image = url($item->image);
             return response()->json($item, 200);
         }

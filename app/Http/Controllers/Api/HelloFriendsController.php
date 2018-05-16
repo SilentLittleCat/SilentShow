@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\LearnFun;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -41,7 +42,19 @@ class HelloFriendsController extends Controller
     public function login(Request $request)
     {
         if($request->has('code')) {
-
+            $client = new Client();
+            $appId = 'wx98e7bce25e638940';
+            $secret = 'e84b8203a0458b15fff785376a7d5a20';
+            $code = $request->input('code');
+            $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $appId . '&secret=' . $secret . '&js_code=' . $code . '&grant_type=authorization_code';
+            $res = $client->request('GET', $url);
+            if(isset($res['errcode'])) {
+                return response()->json(['status' => 'fail'], 200);
+            } else {
+                $res['status'] = 'success';
+                return response()->json($res, 200);
+            }
         }
+        return response()->json(['status' => 'fail'], 200);
     }
 }

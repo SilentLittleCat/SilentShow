@@ -49,6 +49,7 @@ class HelloFriendsController extends Controller
             $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $appId . '&secret=' . $secret . '&js_code=' . $code . '&grant_type=authorization_code';
             $res = $client->request('GET', $url);
             $res = $res->getBody();
+            dd($res);
             if(isset($res['errcode'])) {
                 return response()->json(['status' => 'fail'], 200);
             } else {

@@ -14,7 +14,7 @@
             <h3 class="box-title">编辑趣闻</h3>
         </div>
         <div class="box-body">
-            <form class="form-horizontal" action="/friends/learn/fun/updata" method="POST">
+            <form class="form-horizontal" action="/friends/learn/fun/update" method="POST">
                 {{ csrf_field() }}
 
                 <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">

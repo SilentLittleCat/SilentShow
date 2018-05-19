@@ -42,7 +42,7 @@
             @yield('content')
         </div>
 
-        <footer class="sg-footer">Copyright © 2018 Silent Show. All Rights Reserved.</footer>
+        {{--<footer class="sg-footer">Copyright © 2018 Silent Show. All Rights Reserved.</footer>--}}
         <script src="/plugin/star-rating-svg/jquery.star-rating-svg.js"></script>
         @yield('footer')
     </body>

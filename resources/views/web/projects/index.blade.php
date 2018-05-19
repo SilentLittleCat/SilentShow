@@ -79,7 +79,7 @@
                         <div class="sg-project-divider sg-transparent"></div>
                         <div class="sg-project-btn-group">
                             <button type="button" class="btn btn-primary">用户名：admin；密码：admin</button>
-                            <a href="http://ofs.silentshow.cn/admin" class="btn btn-danger">去后台看看</a>
+                            <a href="http://ofs.silentshow.cn/admin" target="_blank" class="btn btn-danger">去后台看看</a>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                         <div class="sg-project-divider sg-transparent"></div>
                         <div class="sg-project-btn-group">
                             <button type="button" class="btn btn-primary">用户名：admin；密码：admin</button>
-                            <a href="https://u3.9026.com" class="btn btn-danger">去后台看看</a>
+                            <a href="https://u3.9026.com" target="_blank" class="btn btn-danger">去后台看看</a>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                         <div class="sg-project-divider sg-transparent"></div>
                         <div class="sg-project-btn-group">
                             <button type="button" class="btn btn-primary">用户名：admin；密码：admin</button>
-                            <a href="http://isms.silentshow.cn" class="btn btn-danger">去后台看看</a>
+                            <a href="http://isms.silentshow.cn" target="_blank" class="btn btn-danger">去后台看看</a>
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                         <div class="sg-project-divider sg-transparent"></div>
                         <div class="sg-project-btn-group">
                             <button type="button" class="btn btn-primary">用户名：admin；密码：admin</button>
-                            <a href="http://vmbm.silentshow.cn/admin" class="btn btn-danger">去后台看看</a>
+                            <a href="http://vmbm.silentshow.cn/admin" target="_blank" class="btn btn-danger">去后台看看</a>
                         </div>
                     </div>
                 </div>

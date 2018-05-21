@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/plugin/adminlte/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="/plugin/adminlte/dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="/plugin/adminlte/plugins/iCheck/all.css">
+    <link rel="stylesheet" href="/plugin/multi-select/css/multi-select.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/img/icon/icon3.png" sizes="32x32" type="image/png">
 
@@ -34,6 +35,7 @@
 <script src="/plugin/adminlte/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <script src="/plugin/adminlte/plugins/iCheck/icheck.min.js"></script>
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
+<script src="/plugin/multi-select/js/jquery.multi-select.js"></script>
 
 <script type="text/javascript">
     $(function () {

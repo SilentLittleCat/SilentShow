@@ -11,4 +11,9 @@ class IndexController extends Controller
     {
         return view('web.index.index');
     }
+
+    public function contact()
+    {
+        return view('web.index.contact');
+    }
 }

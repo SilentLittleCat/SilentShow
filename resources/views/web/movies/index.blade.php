@@ -45,7 +45,7 @@
             @endforeach
         </div>
 
-        @include('share.bottom_kit')
+        {{--@include('share.bottom_kit')--}}
     </div>
 @endsection
 

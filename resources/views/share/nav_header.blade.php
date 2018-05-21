@@ -33,23 +33,26 @@
             </div>
             <div class="col-sm-8">
                 <ul class="nav justify-content-center">
-                    <li class="nav-item">
+                    <li class="nav-item {{ url('/') == url()->current() ? 'nav-selected' : '' }}">
                         <a class="nav-link sg-blue" href="/">首页</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ starts_with(url()->current(), url('/web/movies')) ? 'nav-selected' : '' }}">
                         <a class="nav-link sg-indigo" href="/web/movies/index">电影</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link sg-pink" href="#">相册</a>
+                    <li class="nav-item {{ starts_with(url()->current(), url('/web/photos')) ? 'nav-selected' : '' }}">
+                        <a class="nav-link sg-pink" href="/web/photos/index">相册</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link sg-red" href="/web/music/index">音乐</a>
+                    {{--<li class="nav-item" {{ starts_with(url()->current(), url('/web/music')) ? 'nav-selected' : '' }}>--}}
+                        {{--<a class="nav-link sg-red" href="/web/music/index">音乐</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item" {{ starts_with(url()->current(), url('/web/articles')) ? 'nav-selected' : '' }}>--}}
+                        {{--<a class="nav-link sg-orange" href="/web/articles/index">文章</a>--}}
+                    {{--</li>--}}
+                    <li class="nav-item" {{ starts_with(url()->current(), url('/web/projects')) ? 'nav-selected' : '' }}>
+                        <a class="nav-link sg-red" href="/web/projects/index">项目</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link sg-orange" href="#">文章</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link sg-teal" href="/web/projects/index">项目</a>
+                    <li class="nav-item" {{ starts_with(url()->current(), url('/web/index/contact')) ? 'nav-selected' : '' }}>
+                        <a class="nav-link sg-teal" href="/web/index/contact">联系</a>
                     </li>
                 </ul>
             </div>

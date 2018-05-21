@@ -26,7 +26,7 @@
     @yield('header')
 </head>
 <body class="hold-transition skin-blue sidebar-mini" style="overflow: hidden">
-<div class="wrapper">
+<div class="wrapper" id="most-out-wrapper">
     <header class="main-header">
         <a href="index2.html" class="logo">
             <span class="logo-mini"><b>SS</b></span>
@@ -90,6 +90,38 @@
                         </li>
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-image"></i><span>图片管理</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="/admin/photos/index"><i class="fa fa-angle-right"></i>图片列表</a>
+                        </li>
+                        <li>
+                            <a href="/admin/photo-categories/index"><i class="fa fa-angle-right"></i>图片分类</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-music"></i><span>音乐管理</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="/admin/musics/index"><i class="fa fa-angle-right"></i>音乐列表</a>
+                        </li>
+                        <li>
+                            <a href="/admin/music-categories/index"><i class="fa fa-angle-right"></i>音乐分类</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </section>
     </aside>
@@ -117,7 +149,12 @@
         $('#main-iframe').css('height', $('.content-wrapper').height());
         $('#sg-sidebar-menu').on('click', 'a', function () {
            event.preventDefault();
-           $('#main-iframe').attr('src', $(this).attr('href'));
+           if($(this).attr('href') !== '#') {
+               $('#main-iframe').attr('src', $(this).attr('href'));
+           } else {
+               $('.treeview').removeClass('active');
+               $(this).parent().addClass('active');
+           }
         });
     });
 </script>

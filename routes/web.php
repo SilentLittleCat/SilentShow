@@ -23,6 +23,12 @@ Route::namespace('Web')->prefix('web')->group(function () {
     Route::get('projects/index', 'ProjectController@index');
 
     Route::get('music/index', 'MusicController@index');
+
+    Route::get('photos/index', 'PhotoController@index');
+
+    Route::get('photos/category', 'PhotoController@category');
+
+    Route::get('index/contact', 'IndexController@contact');
 });
 
 //Auth::routes();

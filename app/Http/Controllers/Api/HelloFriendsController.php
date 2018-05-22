@@ -87,13 +87,18 @@ class HelloFriendsController extends Controller
 
                 $res->fuId = uniqid('silent-', true);
 
-                HelloFriendsUser::updateOrCreate([
-                    'openId' => $res->openid
-                ], [
-                    'session_key' => $res->session_key,
-                    'fuId' => $res->fuId
-                ]);
-                return response()->json($res, 200);
+                $user = HelloFriendsUser::where('openId', $res->openid);
+                if(!$user) {
+                    $user = HelloFriendsUser::create([
+                        'openId' => $res->openid,
+                        'session_key' => $res->session_key,
+                        'fuId' => $res->fuId
+                    ]);
+                } else {
+                    $user->session_key = $res->session_key;
+                    $user->save();
+                }
+                return response()->json($user, 200);
             }
         }
         return response()->json(['status' => 'fail'], 200);

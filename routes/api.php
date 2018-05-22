@@ -24,5 +24,5 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/HelloFriends/updateUser', 'HelloFriendsController@updateUser');
 
-    Route::post('/HelloFriends/updateUser', 'HelloFriendsController@sendLearnFunRemark');
+    Route::post('/HelloFriends/sendLearnFunRemark', 'HelloFriendsController@sendLearnFunRemark');
 });

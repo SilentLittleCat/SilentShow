@@ -36,7 +36,12 @@ class HelloFriendsController extends Controller
         } else {
             $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
             $item->image = url($item->image);
-            $item->remarks = HelloFriendsLearnFunRemark::where('article_id', $item->id)->get();
+            $hello_friends_user = new HelloFriendsUser();
+            $item->remarks = HelloFriendsLearnFunRemark::where('article_id', $item->id)->get()->each(function ($item) use($hello_friends_user) {
+                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+            });
             return response()->json($item, 200);
         }
     }

@@ -154,19 +154,19 @@ class HelloFriendsController extends Controller
     public function getRemarkDate($date)
     {
         $tmp = $date->diffInYears();
-        if(!$tmp) {
+        if($tmp) {
             return $tmp . '年前';
         }
         $tmp = $date->diffInMonths();
-        if(!$tmp) {
+        if($tmp) {
             return $tmp . '个月前';
         }
         $tmp = $date->diffInHours();
-        if(!$tmp) {
+        if($tmp) {
             return $tmp . '小时前';
         }
         $tmp = $date->diffInMinutes();
-        if(!$tmp) {
+        if($tmp) {
             return $tmp . '分钟前';
         }
         return '刚刚';

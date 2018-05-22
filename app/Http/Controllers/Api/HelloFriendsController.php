@@ -144,6 +144,7 @@ class HelloFriendsController extends Controller
         $res->avatar = $tmp ? $tmp->avatarUrl : '';
         $res->nickName = $tmp ? $tmp->nickName : '';
         $res->remarkDate = '刚刚';
+        $res->remark_backs = [];
         if($request->input('fa_id') == 0) {
             return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
         }

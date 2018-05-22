@@ -7,6 +7,7 @@ use App\LearnFun;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class HelloFriendsController extends Controller
 {
@@ -82,7 +83,7 @@ class HelloFriendsController extends Controller
         if(!$request->has('silent_user_id')) {
             return response()->json(['status' => 'fail'], 200);
         }
-
+        Log::info($request->all());
         $item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first();
         if(!$item) {
             $item->nickName = $request->input('userInfo')->nickName;

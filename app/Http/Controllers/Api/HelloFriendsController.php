@@ -83,16 +83,15 @@ class HelloFriendsController extends Controller
         if(!$request->has('silent_user_id')) {
             return response()->json(['status' => 'fail'], 200);
         }
-        Log::info($request->all());
         $item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first();
         if(!$item) {
-            $item->nickName = $request->input('userInfo')->nickName;
-            $item->avatarUrl = $request->input('userInfo')->avatarUrl;
-            $item->gender = $request->input('userInfo')->gender;
-            $item->city = $request->input('userInfo')->city;
-            $item->province = $request->input('userInfo')->province;
-            $item->country = $request->input('userInfo')->country;
-            $item->avatarUrl = $request->input('userInfo')->avatarUrl;
+            $item->nickName = $request->input('userInfo')['nickName'];
+            $item->avatarUrl = $request->input('userInfo')['avatarUrl'];
+            $item->gender = $request->input('userInfo')['gender'];
+            $item->city = $request->input('userInfo')['city'];
+            $item->province = $request->input('userInfo')['province'];
+            $item->country = $request->input('userInfo')['country'];
+            $item->avatarUrl = $request->input('userInfo')['avatarUrl'];
             if(!$item->save()) {
                 return response()->json(['status' => 'fail'], 200);
             }

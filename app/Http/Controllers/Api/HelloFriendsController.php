@@ -56,6 +56,7 @@ class HelloFriendsController extends Controller
                     $back->remarkDate = $this->getRemarkDate($tmp->created_at);
                 }
             }
+            dd($item);
             return response()->json($item, 200);
         }
     }

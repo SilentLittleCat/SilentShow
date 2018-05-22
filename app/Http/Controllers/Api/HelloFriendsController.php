@@ -84,7 +84,7 @@ class HelloFriendsController extends Controller
             return response()->json(['status' => 'fail'], 200);
         }
         $item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first();
-        if(!$item) {
+        if($item) {
             $item->nickName = $request->input('userInfo')['nickName'];
             $item->avatarUrl = $request->input('userInfo')['avatarUrl'];
             $item->gender = $request->input('userInfo')['gender'];

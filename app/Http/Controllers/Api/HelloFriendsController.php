@@ -52,8 +52,8 @@ class HelloFriendsController extends Controller
                 $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
                 foreach($tmp->remark_backs as $back) {
                     $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
-                    $tmp->nickName = $tmp_1 ? $tmp_1->nickName : '';
-                    $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
+                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
                 }
             }
             return response()->json($item, 200);

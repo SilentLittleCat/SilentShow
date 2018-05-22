@@ -36,6 +36,7 @@ class HelloFriendsController extends Controller
         } else {
             $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
             $item->image = url($item->image);
+            $item->remarks = HelloFriendsLearnFunRemark::where('article_id', $item->id)->get();
             return response()->json($item, 200);
         }
     }

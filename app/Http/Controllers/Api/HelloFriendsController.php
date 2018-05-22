@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\HelloFriendsLearnFunRemark;
 use App\HelloFriendsUser;
 use App\LearnFun;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,11 +38,21 @@ class HelloFriendsController extends Controller
             $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
             $item->image = url($item->image);
             $hello_friends_user = new HelloFriendsUser();
-            $item->remarks = HelloFriendsLearnFunRemark::where('article_id', $item->id)->get()->each(function ($item) use($hello_friends_user) {
+            $carbon = Carbon::now();
+            $item->remarks = HelloFriendsLearnFunRemark::where('article_id', $item->id)->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
                 $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
                 $item->avatar = $tmp ? $tmp->avatarUrl : '';
                 $item->nickName = $tmp ? $tmp->nickName : '';
             });
+            foreach($item->remarks as $tmp) {
+                $tmp->remark_backs = HelloFriendsLearnFunRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
+                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                foreach($tmp->remark_backs as $back) {
+                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
+                    $tmp->nickName = $tmp_1 ? $tmp_1->nickName : '';
+                    $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                }
+            }
             return response()->json($item, 200);
         }
     }
@@ -116,15 +127,44 @@ class HelloFriendsController extends Controller
         }
 
         $res = HelloFriendsLearnFunRemark::create([
+            'fa_id' => $request->input('fa_id'),
             'fuId' => $request->input('silent_user_id'),
             'article_id' => $request->input('article_id'),
-            'content' => $request->input('content'),
-            'back_user_id' => $request->input('back_user_id')
+            'content' => $request->input('content')
         ]);
 
         if(!$res) {
             return response()->json(['status' => 'fail'], 200);
         }
-        return response()->json(['status' => 'success'], 200);
+
+        $tmp = HelloFriendsUser::where('fuId', $item->fuId)->first();
+        $res->avatar = $tmp ? $tmp->avatarUrl : '';
+        $res->nickName = $tmp ? $tmp->nickName : '';
+        $res->remarkDate = '刚刚';
+        if($request->input('fa_id') == 0) {
+            return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
+        }
+        return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
+    }
+
+    public function getRemarkDate($date)
+    {
+        $tmp = $date->diffInYears();
+        if(!$tmp) {
+            return $tmp . '年前';
+        }
+        $tmp = $date->diffInMonths();
+        if(!$tmp) {
+            return $tmp . '个月前';
+        }
+        $tmp = $date->diffInHours();
+        if(!$tmp) {
+            return $tmp . '小时前';
+        }
+        $tmp = $date->diffInMinutes();
+        if(!$tmp) {
+            return $tmp . '分钟前';
+        }
+        return '刚刚';
     }
 }

@@ -39,7 +39,10 @@ class HelloFriendsController extends Controller
             $item->image = url($item->image);
             $hello_friends_user = new HelloFriendsUser();
             $carbon = Carbon::now();
-            $item->remarks = HelloFriendsLearnFunRemark::where('article_id', $item->id)->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
+            $item->remarks = HelloFriendsLearnFunRemark::where([
+                'article_id' => $item->id,
+                'fa_id' => 0
+            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
                 $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
                 $item->avatar = $tmp ? $tmp->avatarUrl : '';
                 $item->nickName = $tmp ? $tmp->nickName : '';

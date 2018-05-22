@@ -13,7 +13,7 @@ class TestController extends Controller
 {
     public function index(Request $request)
     {
-        $item = (new PhotoCategory())->find(10)->photos;
+        $item = uniqid('silent-', true);
         dd($item);
         return view('test.index');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\HelloFriendsUser;
 use App\LearnFun;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -11,9 +12,17 @@ class HelloFriendsController extends Controller
 {
     protected $modal;
 
+    protected $app_id;
+
+    protected $app_secret;
+
     public function __construct()
     {
         $this->modal = new LearnFun();
+
+        $this->app_id = env('WX_APP_ID');
+
+        $this->app_secret = env('WX_APP_SECRET');
     }
 
     public function getLearnFun(Request $request)
@@ -43,8 +52,8 @@ class HelloFriendsController extends Controller
     {
         if($request->has('code')) {
             $client = new Client();
-            $appId = 'wx98e7bce25e638940';
-            $secret = 'e84b8203a0458b15fff785376a7d5a20';
+            $appId = $this->app_id;
+            $secret = $this->app_secret;
             $code = $request->input('code');
             $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $appId . '&secret=' . $secret . '&js_code=' . $code . '&grant_type=authorization_code';
             $res = $client->request('GET', $url);
@@ -53,9 +62,40 @@ class HelloFriendsController extends Controller
                 return response()->json(['status' => 'fail'], 200);
             } else {
                 $res->status = 'success';
+
+                $res->fuId = uniqid('silent-', true);
+
+                HelloFriendsUser::updateOrCreate([
+                    'openId' => $res->openid
+                ], [
+                    'session_key' => $res->session_key,
+                    'fuId' => $res->fuId
+                ]);
                 return response()->json($res, 200);
             }
         }
         return response()->json(['status' => 'fail'], 200);
+    }
+
+    public function updateUser(Request $request)
+    {
+        if(!$request->has('silent_user_id')) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        $item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first();
+        if(!$item) {
+            $item->nickName = $request->input('userInfo')->nickName;
+            $item->avatarUrl = $request->input('userInfo')->avatarUrl;
+            $item->gender = $request->input('userInfo')->gender;
+            $item->city = $request->input('userInfo')->city;
+            $item->province = $request->input('userInfo')->province;
+            $item->country = $request->input('userInfo')->country;
+            $item->avatarUrl = $request->input('userInfo')->avatarUrl;
+            if(!$item->save()) {
+                return response()->json(['status' => 'fail'], 200);
+            }
+        }
+        return response()->json(['status' => 'success'], 200);
     }
 }

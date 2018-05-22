@@ -95,7 +95,10 @@ class HelloFriendsController extends Controller
             if(!$item->save()) {
                 return response()->json(['status' => 'fail'], 200);
             }
+
+            return response()->json(['status' => 'success'], 200);
         }
-        return response()->json(['status' => 'success'], 200);
+
+        return response()->json(['status' => 'fail'], 200);
     }
 }

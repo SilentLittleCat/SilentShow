@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\HelloFriendsLearnFunRemark;
 use App\HelloFriendsUser;
 use App\LearnFun;
 use GuzzleHttp\Client;
@@ -100,5 +101,24 @@ class HelloFriendsController extends Controller
         }
 
         return response()->json(['status' => 'fail'], 200);
+    }
+
+    public function sendLearnFunRemark(Request $request)
+    {
+        if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        $res = HelloFriendsLearnFunRemark::create([
+            'fuId' => $request->input('silent_user_id'),
+            'article_id' => $request->input('article_id'),
+            'content' => $request->input('content'),
+            'back_user_id' => $request->input('back_user_id')
+        ]);
+
+        if(!$res) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+        return response()->json(['status' => 'success'], 200);
     }
 }

@@ -93,6 +93,22 @@
                         </li>
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-plane"></i><span>行</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="active">
+                            <a href="/friends/travels/index"><i class="fa fa-angle-right"></i>难忘旅途</a>
+                        </li>
+                        <li>
+                            <a href="/friends/go-now/index"><i class="fa fa-angle-right"></i>说走就走</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </section>
     </aside>

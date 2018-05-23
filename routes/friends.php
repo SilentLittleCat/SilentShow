@@ -20,4 +20,13 @@ Route::middleware(['auth.silent:admin'])->group(function () {
     Route::post('/hot-talks/update', 'HotTalkController@update');
     Route::post('/hot-talks/delete', 'HotTalkController@delete');
     Route::post('/hot-talks/deleteMany', 'HotTalkController@deleteMany');
+
+    Route::get('/travels/index', 'TravelController@index');
+    Route::get('/travels/create', 'TravelController@create');
+    Route::post('/travels/store', 'TravelController@store');
+    Route::get('/travels/edit', 'TravelController@edit');
+    Route::get('/travels/detail', 'TravelController@detail');
+    Route::post('/travels/update', 'TravelController@update');
+    Route::post('/travels/delete', 'TravelController@delete');
+    Route::post('/travels/deleteMany', 'TravelController@deleteMany');
 });

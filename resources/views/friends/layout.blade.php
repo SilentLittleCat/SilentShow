@@ -134,7 +134,7 @@
             format: 'yyyy-mm-dd'
         });
         $('#main-iframe').css('height', $('.content-wrapper').height());
-        $('#sg-sidebar-menu').on('click', 'a', function () {
+        $('#sg-sidebar-menu').on('click', '.treeview-menu a', function () {
            event.preventDefault();
            $('.sidebar-menu .active').removeClass('active');
            $(this).parent().addClass('active');

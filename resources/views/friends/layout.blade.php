@@ -79,7 +79,7 @@
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="active treeview">
                     <a href="#">
-                        <i class="fa fa-film"></i><span>知</span>
+                        <i class="fa fa-graduation-cap"></i><span>知</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -87,6 +87,9 @@
                     <ul class="treeview-menu">
                         <li class="active">
                             <a href="/friends/learn/fun/index"><i class="fa fa-angle-right"></i>趣闻列表</a>
+                        </li>
+                        <li>
+                            <a href="/friends/hot-talks/index"><i class="fa fa-angle-right"></i>热谈列表</a>
                         </li>
                     </ul>
                 </li>

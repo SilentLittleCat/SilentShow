@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\HelloFriendsLearnFunRemark;
 use App\HelloFriendsUser;
+use App\HotTalk;
 use App\LearnFun;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -68,6 +69,19 @@ class HelloFriendsController extends Controller
             $item->image = url($item->image);
         });
         return response()->json($items, 200);
+    }
+
+    public function getNewsAndTalks(Request $request)
+    {
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $news = $this->modal->orderBy('updated_at', 'desc')->limit($limit)->get()->each(function ($item) {
+            $item->image = url($item->image);
+        });
+
+        $talks = HotTalk::orderBy('updated_at', 'desc')->limit($limit)->get()->each(function ($item) {
+            $item->image = url($item->image);
+        });
+        return response()->json(compact('news', 'talks'), 200);
     }
 
     public function login(Request $request)

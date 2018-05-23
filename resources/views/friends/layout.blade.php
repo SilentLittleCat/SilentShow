@@ -120,6 +120,9 @@
         $('#main-iframe').css('height', $('.content-wrapper').height());
         $('#sg-sidebar-menu').on('click', 'a', function () {
            event.preventDefault();
+           $('.sidebar-menu .active').removeClass('active');
+           $(this).parent().addClass('active');
+           $(this).parent().parent().parent().addClass('active');
            $('#main-iframe').attr('src', $(this).attr('href'));
         });
     });

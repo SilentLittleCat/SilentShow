@@ -38,6 +38,26 @@
                     </div>
                 </div>
 
+                <div class="form-group {{ $errors->has('loveNumber') ? 'has-error' : '' }}">
+                    <label class="col-sm-2 col-sm-offset-2 control-label">点赞数</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" name="data[loveNumber]">
+                        @if($errors->has('loveNumber'))
+                            <span class="help-block">{{ $errors->first('loveNumber') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group {{ $errors->has('hateNumber') ? 'has-error' : '' }}">
+                    <label class="col-sm-2 col-sm-offset-2 control-label">反对数</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" name="data[hateNumber]">
+                        @if($errors->has('hateNumber'))
+                            <span class="help-block">{{ $errors->first('hateNumber') }}</span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="col-sm-6 col-sm-offset-4">
                     <button class="btn btn-success" type="submit">提交</button>
                 </div>

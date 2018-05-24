@@ -6,6 +6,7 @@ use App\HelloFriendsGoNow;
 use App\HelloFriendsGoNowRemark;
 use App\HelloFriendsHotTalkRemark;
 use App\HelloFriendsLearnFunRemark;
+use App\HelloFriendsLove;
 use App\HelloFriendsTravel;
 use App\HelloFriendsTravelRemark;
 use App\HelloFriendsUser;
@@ -479,7 +480,22 @@ class HelloFriendsController extends Controller
         $offset = $request->has('offset') ? $request->input('offset') : 0;
         $limit = $request->has('limit') ? $request->input('limit') : 5;
         $kind = $request->has('kind') ? $request->input('kind') : 'left';
+        $user = new HelloFriendsUser();
+        if($kind == 'left') {
+            $items = HelloFriendsLove::orderBy('created_at', 'desc');
+        } else if($kind == 'center') {
+            $items = HelloFriendsLove::orderBy('loveNumber', 'desc')->orderBy('hateNumber', 'asc');
+        } else {
+            $items = HelloFriendsLove::orderBy('hateNumber', 'desc')->orderBy('loveNumber', 'asc');
+        }
 
+        $items = $items->offset($offset)->limit($limit)->get()->each(function ($item) use($user) {
+            $tmp = $user->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
+        });
 
+        return response()->json($items, 200);
     }
 }

@@ -52,7 +52,7 @@
                                         <input class="sg-icheck" type="checkbox" value="{{ $item->id }}" name="delete_ids[]">
                                     </td>
                                     <td>{{ $item->fuId }}</td>
-                                    <td>{{ $item->content }}</td>
+                                    <td>{{ substr($item->content, 0, 20) . '...' }}</td>
                                     <td>{{ $item->loveNumber }}</td>
                                     <td>{{ $item->hateNumber }}</td>
                                     <td>

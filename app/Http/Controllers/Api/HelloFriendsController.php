@@ -164,13 +164,19 @@ class HelloFriendsController extends Controller
         $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
 
         if($request->input('kind') == 'left') {
-            $model = new HelloFriendsTravel();
+            $items = (new HelloFriendsTravel())->orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) {
+                $item->image = url($item->image);
+            });
         } else {
-            $model = new HotTalk();
+            $user = new HelloFriendsUser();
+            $items = (new HelloFriendsGoNow())->orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) use($user) {
+                $tmp = $user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+                $item->remarkDate = $this->getRemarkDate($item->created_at);
+                $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
+            });
         }
-        $items = $model->orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) {
-            $item->image = url($item->image);
-        });
         return response()->json($items, 200);
     }
 
@@ -370,5 +376,22 @@ class HelloFriendsController extends Controller
             return $tmp . '分钟前';
         }
         return '刚刚';
+    }
+
+    public function sendGoNow(Request $request)
+    {
+        if(!$request->has('content') || empty($request->input('content'))) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+        if(!$request->has('fuId') || !($user = HelloFriendsUser::where('fuId', $request->input('fuId'))->first())) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        (new HelloFriendsGoNow())->create([
+            'fuId' => $request->input('fuId'),
+            'content' => $request->input('content')
+        ]);
+
+        return response()->json(['status' => 'success'], 200);
     }
 }

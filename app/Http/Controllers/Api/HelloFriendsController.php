@@ -314,6 +314,34 @@ class HelloFriendsController extends Controller
         return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
     }
 
+    public function sendTravelRemark(Request $request)
+    {
+        if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        $res = HelloFriendsTravelRemark::create([
+            'fa_id' => $request->input('fa_id'),
+            'fuId' => $request->input('silent_user_id'),
+            'article_id' => $request->input('article_id'),
+            'content' => $request->input('content')
+        ]);
+
+        if(!$res) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        $tmp = HelloFriendsUser::where('fuId', $item->fuId)->first();
+        $res->avatar = $tmp ? $tmp->avatarUrl : '';
+        $res->nickName = $tmp ? $tmp->nickName : '';
+        $res->remarkDate = '刚刚';
+        $res->remark_backs = [];
+        if($request->input('fa_id') == 0) {
+            return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
+        }
+        return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
+    }
+
     public function getRemarkDate($date)
     {
         $tmp = $date->diffInYears();

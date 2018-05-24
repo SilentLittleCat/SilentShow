@@ -473,4 +473,13 @@ class HelloFriendsController extends Controller
         });
         return response()->json($go_nows, 200);
     }
+
+    public function getMoreLoves(Request $request)
+    {
+        $offset = $request->has('offset') ? $request->input('offset') : 0;
+        $limit = $request->has('limit') ? $request->input('limit') : 5;
+        $kind = $request->has('kind') ? $request->input('kind') : 'left';
+
+
+    }
 }

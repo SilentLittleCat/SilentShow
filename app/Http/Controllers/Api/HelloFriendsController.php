@@ -151,8 +151,11 @@ class HelloFriendsController extends Controller
         if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
             return response()->json([], 200);
         } else {
-            $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
-            $item->image = url($item->image);
+            $tmp = (new HelloFriendsUser())->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
+            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
             $hello_friends_user = new HelloFriendsUser();
             $carbon = Carbon::now();
             $item->remarks = HelloFriendsGoNowRemark::where([

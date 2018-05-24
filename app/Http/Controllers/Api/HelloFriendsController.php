@@ -398,6 +398,7 @@ class HelloFriendsController extends Controller
     public function refreshGoNow(Request $request)
     {
         $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $user = new HelloFriendsUser();
         $go_nows = HelloFriendsGoNow::orderBy('updated_at', 'desc')->limit($limit)->get()->each(function ($item) use($user) {
             $tmp = $user->where('fuId', $item->fuId)->first();
             $item->avatar = $tmp ? $tmp->avatarUrl : '';

@@ -199,7 +199,7 @@ class HelloFriendsController extends Controller
             $tmp = $user->where('fuId', $item->fuId)->first();
             $item->avatar = $tmp ? $tmp->avatarUrl : '';
             $item->nickName = $tmp ? $tmp->nickName : '';
-            $item->remarkDate = $this->getRemarkDate($tmp->created_at);
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
         });
         return response()->json(compact('travels', 'go_nows'), 200);
     }
@@ -355,6 +355,10 @@ class HelloFriendsController extends Controller
         $tmp = $date->diffInMonths();
         if($tmp) {
             return $tmp . '个月前';
+        }
+        $tmp = $date->diffInDays();
+        if($tmp) {
+            return $tmp . '天前';
         }
         $tmp = $date->diffInHours();
         if($tmp) {

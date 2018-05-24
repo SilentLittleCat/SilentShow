@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Friends;
 
 use App\HelloFriendsGoNow;
+use App\HelloFriendsUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -40,7 +41,8 @@ class GoNowController extends Controller
     {
         $modal_name = $this->modal_name;
         $pre_uri = $this->pre_uri;
-        return view($this->view_path . 'create', compact('pre_uri', 'modal_name'));
+        $users = HelloFriendsUser::all();
+        return view($this->view_path . 'create', compact('pre_uri', 'modal_name', 'users'));
     }
 
     public function store(Request $request)
@@ -56,7 +58,8 @@ class GoNowController extends Controller
         if(!$request->has('id') || ($item = $this->modal->find($request->input('id'))) == null) return back()->withErrors(['sg_error_info' => '找不到要编辑的数据']);
         $modal_name = $this->modal_name;
         $pre_uri = $this->pre_uri;
-        return view($this->view_path . 'edit', compact('item', 'modal_name', 'pre_uri'));
+        $users = HelloFriendsUser::all();
+        return view($this->view_path . 'edit', compact('item', 'modal_name', 'pre_uri', 'users'));
     }
 
     public function detail(Request $request)

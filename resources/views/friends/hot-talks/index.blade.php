@@ -35,12 +35,14 @@
                     <tbody>
                         <tr>
                             <th><input class="sg-icheck-all" type="checkbox" id="sg-icheck-all"></th>
-                            <th>内容</th>
+                            <th>标题</th>
+                            <th>描述</th>
+                            <th>图片</th>
                             <th>操作</th>
                         </tr>
                         @if($list->count() == 0)
                             <tr>
-                                <td colspan="3" class="sg-empty-table-hint">暂无{{ $modal_name }}！</td>
+                                <td colspan="5" class="sg-empty-table-hint">暂无{{ $modal_name }}！</td>
                             </tr>
                         @else
                             @foreach($list as $item)
@@ -48,7 +50,15 @@
                                     <td>
                                         <input class="sg-icheck" type="checkbox" value="{{ $item->id }}" name="delete_ids[]">
                                     </td>
-                                    <td>{{ $item->content }}</td>
+                                    <td>{{ $item->title }}</td>
+                                    <td>{{ $item->desp }}</td>
+                                    <td>
+                                        @if($item->image)
+                                            <img src="{{ $item->image }}" width="50px">
+                                        @else
+                                            无
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-primary" href="{{ $pre_uri }}edit?id={{ $item->id }}">编辑</a>

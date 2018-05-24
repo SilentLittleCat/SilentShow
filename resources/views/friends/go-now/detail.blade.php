@@ -17,27 +17,9 @@
                 <div class="sg-detail-card">
 
                     <div class="sg-detail-card-item row">
-                        <div class="col-sm-2 col-sm-offset-2 sg-detail-card-label">标题</div>
+                        <div class="col-sm-2 col-sm-offset-2 sg-detail-card-label">用户fuId</div>
                         <div class="col-sm-6 sg-detail-card-content">
-                            {{ $item->title }}
-                        </div>
-                    </div>
-
-                    <div class="sg-detail-card-item row">
-                        <div class="col-sm-2 col-sm-offset-2 sg-detail-card-label">描述</div>
-                        <div class="col-sm-6 sg-detail-card-content">
-                            {{ $item->desp }}
-                        </div>
-                    </div>
-
-                    <div class="sg-detail-card-item row">
-                        <div class="col-sm-2 col-sm-offset-2 sg-detail-card-label">图片</div>
-                        <div class="col-sm-6 sg-detail-card-content">
-                            @if($item->image)
-                                <img src="{{ $item->image }}" width="100px">
-                            @else
-                                无
-                            @endif
+                            {{ $item->fuId }}
                         </div>
                     </div>
 

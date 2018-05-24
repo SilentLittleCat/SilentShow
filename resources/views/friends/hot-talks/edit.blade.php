@@ -18,6 +18,32 @@
                 {{ csrf_field() }}
 
                 <input type="hidden" name="id" value="{{ $item->id }}">
+                <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+                    <label class="col-sm-2 col-sm-offset-2 control-label">标题</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="data[title]" value="{{ $item->title }}" placeholder="" required>
+                        @if($errors->has('title'))
+                            <span class="help-block">{{ $errors->first('title') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group {{ $errors->has('desp') ? 'has-error' : '' }}">
+                    <label class="col-sm-2 col-sm-offset-2 control-label">描述</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="data[desp]" value="{{ $item->desp }}" placeholder="" required>
+                        @if($errors->has('desp'))
+                            <span class="help-block">{{ $errors->first('desp') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group {{ $errors->has('image') ? 'has-error' : '' }}">
+                    <label class="col-sm-2 col-sm-offset-2 control-label">图片(600*400)</label>
+                    <div class="col-sm-6">
+                        @include('components.upload-images', ['name' => 'image', 'value' => (isset($item->image) ? $item->image : ''), 'type' =>'single', 'class' => 'learn-fun'])
+                    </div>
+                </div>
 
                 <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
                     <label class="col-sm-2 col-sm-offset-2 control-label">内容</label>

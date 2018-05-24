@@ -20,7 +20,11 @@
     <script src="/plugin/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
 
     <style>
-
+        .table td {
+                     overflow: hidden;
+                     text-overflow: ellipsis;
+                     white-space: nowrap;
+                 }
     </style>
     @yield('header')
 </head>

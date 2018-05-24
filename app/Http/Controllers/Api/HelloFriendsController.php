@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\HelloFriendsHotTalkRemark;
 use App\HelloFriendsLearnFunRemark;
 use App\HelloFriendsTravel;
+use App\HelloFriendsTravelRemark;
 use App\HelloFriendsUser;
 use App\HotTalk;
 use App\LearnFun;
@@ -96,6 +97,39 @@ class HelloFriendsController extends Controller
             });
             foreach($item->remarks as $tmp) {
                 $tmp->remark_backs = HelloFriendsHotTalkRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
+                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                foreach($tmp->remark_backs as $back) {
+                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
+                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
+                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
+                }
+            }
+            return response()->json($item, 200);
+        }
+    }
+
+    public function getTravel(Request $request)
+    {
+        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $model = new HelloFriendsTravel();
+        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
+            return response()->json([], 200);
+        } else {
+            $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
+            $item->image = url($item->image);
+            $hello_friends_user = new HelloFriendsUser();
+            $carbon = Carbon::now();
+            $item->remarks = HelloFriendsTravelRemark::where([
+                'article_id' => $item->id,
+                'fa_id' => 0
+            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
+                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+            });
+            foreach($item->remarks as $tmp) {
+                $tmp->remark_backs = HelloFriendsTravelRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
                 $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
                 foreach($tmp->remark_backs as $back) {
                     $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();

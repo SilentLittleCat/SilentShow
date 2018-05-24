@@ -38,4 +38,5 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/HelloFriends/getMoreNewsOrTalks', 'HelloFriendsController@getMoreNewsOrTalks');
     Route::get('/HelloFriends/getMoreTravelsOrGoNow', 'HelloFriendsController@getMoreTravelsOrGoNow');
+    Route::get('/HelloFriends/refreshGoNow', 'HelloFriendsController@refreshGoNow');
 });

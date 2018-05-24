@@ -394,4 +394,17 @@ class HelloFriendsController extends Controller
 
         return response()->json(['status' => 'success'], 200);
     }
+
+    public function refreshGoNow(Request $request)
+    {
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $go_nows = HelloFriendsGoNow::orderBy('updated_at', 'desc')->limit($limit)->get()->each(function ($item) use($user) {
+            $tmp = $user->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
+            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
+        });
+        return response()->json($go_nows, 200);
+    }
 }

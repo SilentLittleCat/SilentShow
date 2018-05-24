@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Friends;
 
 use App\HelloFriendsLove;
+use App\HelloFriendsUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

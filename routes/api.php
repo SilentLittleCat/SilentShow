@@ -30,6 +30,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/HelloFriends/getNewsAndTalks', 'HelloFriendsController@getNewsAndTalks');
 
+    Route::get('/HelloFriends/getTravelsAndGoNow', 'HelloFriendsController@getTravelsAndGoNow');
+
     Route::get('/HelloFriends/getHotTalk', 'HelloFriendsController@getHotTalk');
 
     Route::get('/HelloFriends/getMoreNewsOrTalks', 'HelloFriendsController@getMoreNewsOrTalks');

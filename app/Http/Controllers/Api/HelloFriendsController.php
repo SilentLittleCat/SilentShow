@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\HelloFriendsHotTalkRemark;
 use App\HelloFriendsLearnFunRemark;
+use App\HelloFriendsTravel;
 use App\HelloFriendsUser;
 use App\HotTalk;
 use App\LearnFun;
@@ -133,6 +134,20 @@ class HelloFriendsController extends Controller
             $item->image = url($item->image);
         });
         return response()->json(compact('news', 'talks'), 200);
+    }
+
+    public function getTravelsAndGoNow(Request $request)
+    {
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $travels = (new HelloFriendsTravel())->orderBy('updated_at', 'desc')->limit($limit)->get()->each(function ($item) {
+            $item->image = url($item->image);
+        });
+
+        $go_nows = [];
+//        $talks = HotTalk::orderBy('updated_at', 'desc')->limit($limit)->get()->each(function ($item) {
+//            $item->image = url($item->image);
+//        });
+        return response()->json(compact('travels', 'go_nows'), 200);
     }
 
     public function login(Request $request)

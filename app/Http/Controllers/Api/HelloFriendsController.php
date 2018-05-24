@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\HelloFriendsGoNow;
 use App\HelloFriendsHotTalkRemark;
 use App\HelloFriendsLearnFunRemark;
 use App\HelloFriendsTravel;
@@ -193,10 +194,13 @@ class HelloFriendsController extends Controller
             $item->image = url($item->image);
         });
 
-        $go_nows = [];
-//        $talks = HotTalk::orderBy('updated_at', 'desc')->limit($limit)->get()->each(function ($item) {
-//            $item->image = url($item->image);
-//        });
+        $user = new HelloFriendsUser();
+        $go_nows = HelloFriendsGoNow::orderBy('updated_at', 'desc')->limit($limit)->get()->each(function ($item) use($user) {
+            $tmp = $user->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($tmp->created_at);
+        });
         return response()->json(compact('travels', 'go_nows'), 200);
     }
 

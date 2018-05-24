@@ -200,6 +200,7 @@ class HelloFriendsController extends Controller
             $item->avatar = $tmp ? $tmp->avatarUrl : '';
             $item->nickName = $tmp ? $tmp->nickName : '';
             $item->remarkDate = $this->getRemarkDate($item->created_at);
+            $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
         });
         return response()->json(compact('travels', 'go_nows'), 200);
     }

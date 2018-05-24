@@ -29,4 +29,13 @@ Route::middleware(['auth.silent:admin'])->group(function () {
     Route::post('/travels/update', 'TravelController@update');
     Route::post('/travels/delete', 'TravelController@delete');
     Route::post('/travels/deleteMany', 'TravelController@deleteMany');
+
+    Route::get('/go-now/index', 'GoNowController@index');
+    Route::get('/go-now/create', 'GoNowController@create');
+    Route::post('/go-now/store', 'GoNowController@store');
+    Route::get('/go-now/edit', 'GoNowController@edit');
+    Route::get('/go-now/detail', 'GoNowController@detail');
+    Route::post('/go-now/update', 'GoNowController@update');
+    Route::post('/go-now/delete', 'GoNowController@delete');
+    Route::post('/go-now/deleteMany', 'GoNowController@deleteMany');
 });

@@ -296,8 +296,10 @@ class HelloFriendsController extends Controller
         if(!$request->has('id') || ($item = (new HelloFriendsGoNow())->find($request->input('id'))) == null) {
             return response()->json(['status' => 'fail'], 200);
         } else {
-            $item->image = url($item->image);
             $hello_friends_user = new HelloFriendsUser();
+            $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
             $remarks = HelloFriendsGoNowRemark::where([
                 'article_id' => $item->id,
                 'fa_id' => 0

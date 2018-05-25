@@ -605,6 +605,23 @@ class HelloFriendsController extends Controller
         return response()->json(['status' => 'success'], 200);
     }
 
+    public function sendHero(Request $request)
+    {
+        if(!$request->has('content') || empty($request->input('content'))) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+        if(!$request->has('fuId') || !($user = HelloFriendsUser::where('fuId', $request->input('fuId'))->first())) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        (new HelloFriendsHero())->create([
+            'fuId' => $request->input('fuId'),
+            'content' => $request->input('content')
+        ]);
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
     public function addLoveNumber(Request $request)
     {
         if(!$request->has('fuId') || !$request->has('id') || !$request->has('kind')) {

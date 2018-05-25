@@ -77,7 +77,7 @@ class HelloFriendsController extends Controller
                 $item->nickName = $tmp ? $tmp->nickName : '';
             });
             foreach($remarks as $tmp) {
-                $tmp->remark_backs = HelloFriendsLearnFunRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
+                $tmp->remark_backs = HelloFriendsLearnFunRemark::where('fa_id', $tmp->id)->orderBy('created_at')->get();
                 $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
                 foreach($tmp->remark_backs as $back) {
                     $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();

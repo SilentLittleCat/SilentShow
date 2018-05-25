@@ -535,7 +535,7 @@ class HelloFriendsController extends Controller
             return response()->json(['status' => 'error'], 200);
         }
         if($request->input('kind') == 'love') {
-            $love->loveNumber = ($love->loveNumber == null ? 1 : $love->lovNumber + 1);
+            $love->loveNumber = ($love->loveNumber == null ? 1 : $love->loveNumber + 1);
             $number = $love->loveNumber;
         } else {
             $love->hateNumber = ($love->hateNumber == null ? 1 : $love->hateNumber + 1);

@@ -203,6 +203,76 @@ class HelloFriendsController extends Controller
         }
     }
 
+    public function getTravel(Request $request)
+    {
+        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $kind = $request->has('kind') ? $request->input('kind') : 'init';
+        if(!$request->has('id') || ($item = (new HelloFriendsTravel())->find($request->input('id'))) == null) {
+            return response()->json(['status' => 'fail'], 200);
+        } else {
+            $item->image = url($item->image);
+            $hello_friends_user = new HelloFriendsUser();
+            $remarks = HelloFriendsTravelRemark::where([
+                'article_id' => $item->id,
+                'fa_id' => 0
+            ])->orderBy('created_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) use($hello_friends_user) {
+                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+            });
+            foreach($remarks as $tmp) {
+                $tmp->remark_backs = HelloFriendsTravelRemark::where('fa_id', $tmp->id)->orderBy('created_at')->get();
+                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                foreach($tmp->remark_backs as $back) {
+                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
+                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
+                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
+                }
+            }
+            if($kind == 'init') {
+                return response()->json(['item' => $item, 'remarks' => $remarks, 'status' => 'success'], 200);
+            } else {
+                return response()->json(['remarks' => $remarks, 'status' => 'success'], 200);
+            }
+        }
+    }
+
+    public function getGoNow(Request $request)
+    {
+        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $kind = $request->has('kind') ? $request->input('kind') : 'init';
+        if(!$request->has('id') || ($item = (new HelloFriendsGoNow())->find($request->input('id'))) == null) {
+            return response()->json(['status' => 'fail'], 200);
+        } else {
+            $item->image = url($item->image);
+            $hello_friends_user = new HelloFriendsUser();
+            $remarks = HelloFriendsGoNowRemark::where([
+                'article_id' => $item->id,
+                'fa_id' => 0
+            ])->orderBy('created_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) use($hello_friends_user) {
+                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+            });
+            foreach($remarks as $tmp) {
+                $tmp->remark_backs = HelloFriendsGoNowRemark::where('fa_id', $tmp->id)->orderBy('created_at')->get();
+                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                foreach($tmp->remark_backs as $back) {
+                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
+                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
+                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
+                }
+            }
+            if($kind == 'init') {
+                return response()->json(['item' => $item, 'remarks' => $remarks, 'status' => 'success'], 200);
+            } else {
+                return response()->json(['remarks' => $remarks, 'status' => 'success'], 200);
+            }
+        }
+    }
+
     public function sendLearnFunRemark(Request $request)
     {
         if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
@@ -231,73 +301,88 @@ class HelloFriendsController extends Controller
         return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
     }
 
-    public function getTravel(Request $request)
+    public function sendHotTalkRemark(Request $request)
     {
-        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
-        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
-        $model = new HelloFriendsTravel();
-        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
-            return response()->json([], 200);
-        } else {
-            $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
-            $item->image = url($item->image);
-            $hello_friends_user = new HelloFriendsUser();
-            $carbon = Carbon::now();
-            $item->remarks = HelloFriendsTravelRemark::where([
-                'article_id' => $item->id,
-                'fa_id' => 0
-            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
-                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
-                $item->avatar = $tmp ? $tmp->avatarUrl : '';
-                $item->nickName = $tmp ? $tmp->nickName : '';
-            });
-            foreach($item->remarks as $tmp) {
-                $tmp->remark_backs = HelloFriendsTravelRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
-                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
-                foreach($tmp->remark_backs as $back) {
-                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
-                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
-                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
-                }
-            }
-            return response()->json($item, 200);
+        if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
+            return response()->json(['status' => 'fail'], 200);
         }
+
+        $res = HelloFriendsHotTalkRemark::create([
+            'fa_id' => $request->input('fa_id'),
+            'fuId' => $request->input('silent_user_id'),
+            'article_id' => $request->input('article_id'),
+            'content' => $request->input('content')
+        ]);
+
+        if(!$res) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        $tmp = HelloFriendsUser::where('fuId', $item->fuId)->first();
+        $res->avatar = $tmp ? $tmp->avatarUrl : '';
+        $res->nickName = $tmp ? $tmp->nickName : '';
+        $res->remarkDate = '刚刚';
+        $res->remark_backs = [];
+        if($request->input('fa_id') == 0) {
+            return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
+        }
+        return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
     }
 
-    public function getGoNow(Request $request)
+    public function sendTravelRemark(Request $request)
     {
-        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
-        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
-        $model = new HelloFriendsGoNow();
-        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
-            return response()->json([], 200);
-        } else {
-            $tmp = (new HelloFriendsUser())->where('fuId', $item->fuId)->first();
-            $item->avatar = $tmp ? $tmp->avatarUrl : '';
-            $item->nickName = $tmp ? $tmp->nickName : '';
-            $item->remarkDate = $this->getRemarkDate($item->created_at);
-            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
-            $hello_friends_user = new HelloFriendsUser();
-            $carbon = Carbon::now();
-            $item->remarks = HelloFriendsGoNowRemark::where([
-                'article_id' => $item->id,
-                'fa_id' => 0
-            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
-                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
-                $item->avatar = $tmp ? $tmp->avatarUrl : '';
-                $item->nickName = $tmp ? $tmp->nickName : '';
-            });
-            foreach($item->remarks as $tmp) {
-                $tmp->remark_backs = HelloFriendsGoNowRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
-                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
-                foreach($tmp->remark_backs as $back) {
-                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
-                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
-                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
-                }
-            }
-            return response()->json($item, 200);
+        if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
+            return response()->json(['status' => 'fail'], 200);
         }
+
+        $res = HelloFriendsTravelRemark::create([
+            'fa_id' => $request->input('fa_id'),
+            'fuId' => $request->input('silent_user_id'),
+            'article_id' => $request->input('article_id'),
+            'content' => $request->input('content')
+        ]);
+
+        if(!$res) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        $tmp = HelloFriendsUser::where('fuId', $item->fuId)->first();
+        $res->avatar = $tmp ? $tmp->avatarUrl : '';
+        $res->nickName = $tmp ? $tmp->nickName : '';
+        $res->remarkDate = '刚刚';
+        $res->remark_backs = [];
+        if($request->input('fa_id') == 0) {
+            return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
+        }
+        return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
+    }
+
+    public function sendGoNowRemark(Request $request)
+    {
+        if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        $res = HelloFriendsGoNowRemark::create([
+            'fa_id' => $request->input('fa_id'),
+            'fuId' => $request->input('silent_user_id'),
+            'article_id' => $request->input('article_id'),
+            'content' => $request->input('content')
+        ]);
+
+        if(!$res) {
+            return response()->json(['status' => 'fail'], 200);
+        }
+
+        $tmp = HelloFriendsUser::where('fuId', $item->fuId)->first();
+        $res->avatar = $tmp ? $tmp->avatarUrl : '';
+        $res->nickName = $tmp ? $tmp->nickName : '';
+        $res->remarkDate = '刚刚';
+        $res->remark_backs = [];
+        if($request->input('fa_id') == 0) {
+            return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
+        }
+        return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
     }
 
     public function getLove(Request $request)
@@ -459,90 +544,6 @@ class HelloFriendsController extends Controller
             $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
         });
         return response()->json(compact('travels', 'go_nows'), 200);
-    }
-
-    public function sendHotTalkRemark(Request $request)
-    {
-        if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
-            return response()->json(['status' => 'fail'], 200);
-        }
-
-        $res = HelloFriendsHotTalkRemark::create([
-            'fa_id' => $request->input('fa_id'),
-            'fuId' => $request->input('silent_user_id'),
-            'article_id' => $request->input('article_id'),
-            'content' => $request->input('content')
-        ]);
-
-        if(!$res) {
-            return response()->json(['status' => 'fail'], 200);
-        }
-
-        $tmp = HelloFriendsUser::where('fuId', $item->fuId)->first();
-        $res->avatar = $tmp ? $tmp->avatarUrl : '';
-        $res->nickName = $tmp ? $tmp->nickName : '';
-        $res->remarkDate = '刚刚';
-        $res->remark_backs = [];
-        if($request->input('fa_id') == 0) {
-            return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
-        }
-        return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
-    }
-
-    public function sendTravelRemark(Request $request)
-    {
-        if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
-            return response()->json(['status' => 'fail'], 200);
-        }
-
-        $res = HelloFriendsTravelRemark::create([
-            'fa_id' => $request->input('fa_id'),
-            'fuId' => $request->input('silent_user_id'),
-            'article_id' => $request->input('article_id'),
-            'content' => $request->input('content')
-        ]);
-
-        if(!$res) {
-            return response()->json(['status' => 'fail'], 200);
-        }
-
-        $tmp = HelloFriendsUser::where('fuId', $item->fuId)->first();
-        $res->avatar = $tmp ? $tmp->avatarUrl : '';
-        $res->nickName = $tmp ? $tmp->nickName : '';
-        $res->remarkDate = '刚刚';
-        $res->remark_backs = [];
-        if($request->input('fa_id') == 0) {
-            return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
-        }
-        return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
-    }
-
-    public function sendGoNowRemark(Request $request)
-    {
-        if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
-            return response()->json(['status' => 'fail'], 200);
-        }
-
-        $res = HelloFriendsGoNowRemark::create([
-            'fa_id' => $request->input('fa_id'),
-            'fuId' => $request->input('silent_user_id'),
-            'article_id' => $request->input('article_id'),
-            'content' => $request->input('content')
-        ]);
-
-        if(!$res) {
-            return response()->json(['status' => 'fail'], 200);
-        }
-
-        $tmp = HelloFriendsUser::where('fuId', $item->fuId)->first();
-        $res->avatar = $tmp ? $tmp->avatarUrl : '';
-        $res->nickName = $tmp ? $tmp->nickName : '';
-        $res->remarkDate = '刚刚';
-        $res->remark_backs = [];
-        if($request->input('fa_id') == 0) {
-            return response()->json(['status' => 'success', 'type' => 'first', 'data' => $res], 200);
-        }
-        return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
     }
 
     public function sendLoveRemark(Request $request)

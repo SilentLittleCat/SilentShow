@@ -38,22 +38,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/HelloFriends/sendHotTalkRemark', 'HelloFriendsController@sendHotTalkRemark');
     Route::post('/HelloFriends/sendTravelRemark', 'HelloFriendsController@sendTravelRemark');
     Route::post('/HelloFriends/sendGoNowRemark', 'HelloFriendsController@sendGoNowRemark');
-
-    Route::post('/HelloFriends/sendGoNow', 'HelloFriendsController@sendGoNow');
-
     Route::post('/HelloFriends/sendLoveRemark', 'HelloFriendsController@sendLoveRemark');
     Route::post('/HelloFriends/sendHeroRemark', 'HelloFriendsController@sendHeroRemark');
     Route::post('/HelloFriends/sendShowRemark', 'HelloFriendsController@sendShowRemark');
 
+    Route::post('/HelloFriends/sendGoNow', 'HelloFriendsController@sendGoNow');
     Route::post('/HelloFriends/sendLove', 'HelloFriendsController@sendLove');
     Route::post('/HelloFriends/sendHero', 'HelloFriendsController@sendHero');
     Route::post('/HelloFriends/sendShow', 'HelloFriendsController@sendShow');
-
-    Route::get('/HelloFriends/getNewsAndTalks', 'HelloFriendsController@getNewsAndTalks');
-
-    Route::get('/HelloFriends/getTravelsAndGoNow', 'HelloFriendsController@getTravelsAndGoNow');
-
-    Route::get('/HelloFriends/getMoreNewsOrTalks', 'HelloFriendsController@getMoreNewsOrTalks');
     Route::get('/HelloFriends/getMoreTravelsOrGoNow', 'HelloFriendsController@getMoreTravelsOrGoNow');
     Route::get('/HelloFriends/refreshGoNow', 'HelloFriendsController@refreshGoNow');
 

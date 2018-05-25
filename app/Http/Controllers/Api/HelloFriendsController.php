@@ -7,6 +7,7 @@ use App\HelloFriendsGoNowRemark;
 use App\HelloFriendsHotTalkRemark;
 use App\HelloFriendsLearnFunRemark;
 use App\HelloFriendsLove;
+use App\HelloFriendsLoveHate;
 use App\HelloFriendsTravel;
 use App\HelloFriendsTravelRemark;
 use App\HelloFriendsUser;
@@ -514,5 +515,38 @@ class HelloFriendsController extends Controller
         ]);
 
         return response()->json(['status' => 'success'], 200);
+    }
+
+    public function addLoveNumber(Request $request)
+    {
+        if(!$request->has('fuId') || !$request->has('id') || !$request->has('kind')) {
+            return response()->json(['status' => 'error'], 200);
+        }
+
+        $item = HelloFriendsLoveHate::where([
+            ['love_id', $request->input('id')],
+            ['fuId', $request->input('fuId')]
+        ])->first();
+        if($item) {
+            return response()->json(['status' => 'exist'], 200);
+        }
+        $love = HelloFriendsLove::find($request->input('id'));
+        if(!$love) {
+            return response()->json(['status' => 'error'], 200);
+        }
+        if($request->input('kind') == 'love') {
+            $love->loveNumber = ($love->loveNumber == null ? 1 : $love->lovNumber + 1);
+            $number = $love->loveNumber;
+        } else {
+            $love->hateNumber = ($love->hateNumber == null ? 1 : $love->hateNumber + 1);
+            $number = $love->hateNumber;
+        }
+        $love->save();
+        HelloFriendsLoveHate::create([
+            'love_id' => $request->input('id'),
+            'fuId' => $request->input('fuId'),
+            'kind' => ($request->input('kind') == 'love' ? 1 : 2)
+        ]);
+        return response()->json(['status' => 'success', 'number' => $number], 200);
     }
 }

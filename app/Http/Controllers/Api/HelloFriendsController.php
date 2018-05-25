@@ -121,15 +121,19 @@ class HelloFriendsController extends Controller
         $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
         $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
         $kind = $request->has('kind') ? $request->input('kind') : 'left';
+        $hello_friends_user = new HelloFriendsUser();
 
         if($kind == 'left') {
-            $model = new HelloFriendsTravel();
+            $items = (new HelloFriendsTravel())->orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) use($hello_friends_user) {
+                $item->image = url($item->image);
+            });
         } else {
-            $model = new HelloFriendsGoNow();
+            $items = (new HelloFriendsGoNow())->orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) use($hello_friends_user) {
+                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+            });;
         }
-        $items = $model->orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) {
-            $item->image = url($item->image);
-        });
         return response()->json($items, 200);
     }
 

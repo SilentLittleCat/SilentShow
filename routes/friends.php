@@ -56,4 +56,13 @@ Route::middleware(['auth.silent:admin'])->group(function () {
     Route::post('/heroes/update', 'HeroController@update');
     Route::post('/heroes/delete', 'HeroController@delete');
     Route::post('/heroes/deleteMany', 'HeroController@deleteMany');
+
+    Route::get('/shows/index', 'ShowController@index');
+    Route::get('/shows/create', 'ShowController@create');
+    Route::post('/shows/store', 'ShowController@store');
+    Route::get('/shows/edit', 'ShowController@edit');
+    Route::get('/shows/detail', 'ShowController@detail');
+    Route::post('/shows/update', 'ShowController@update');
+    Route::post('/shows/delete', 'ShowController@delete');
+    Route::post('/shows/deleteMany', 'ShowController@deleteMany');
 });

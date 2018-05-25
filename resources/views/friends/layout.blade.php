@@ -101,7 +101,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active">
+                        <li>
                             <a href="/friends/travels/index"><i class="fa fa-angle-right"></i>难忘旅途</a>
                         </li>
                         <li>
@@ -117,7 +117,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active">
+                        <li>
                             <a href="/friends/loves/index"><i class="fa fa-angle-right"></i>告白列表</a>
                         </li>
                     </ul>
@@ -130,8 +130,11 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active">
+                        <li>
                             <a href="/friends/heroes/index"><i class="fa fa-angle-right"></i>英雄令</a>
+                        </li>
+                        <li class="active">
+                            <a href="/friends/shows/index"><i class="fa fa-angle-right"></i>英雄令</a>
                         </li>
                     </ul>
                 </li>

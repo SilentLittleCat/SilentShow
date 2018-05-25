@@ -41,6 +41,23 @@ class HelloFriendsController extends Controller
         $this->app_secret = env('WX_APP_SECRET');
     }
 
+    public function getMoreLearns(Request $request)
+    {
+        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $kind = $request->has('kind') ? $request->input('kind') : 'left';
+
+        if($kind == 'left') {
+            $model = $this->modal;
+        } else {
+            $model = new HotTalk();
+        }
+        $items = $model->orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) {
+            $item->image = url($item->image);
+        });
+        return response()->json($items, 200);
+    }
+
     public function getLearnFun(Request $request)
     {
         $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
@@ -292,22 +309,6 @@ class HelloFriendsController extends Controller
             }
             return response()->json($item, 200);
         }
-    }
-
-    public function getMoreNewsOrTalks(Request $request)
-    {
-        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
-        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
-
-        if($request->input('kind') == 'news') {
-            $model = $this->modal;
-        } else {
-            $model = new HotTalk();
-        }
-        $items = $model->orderBy('updated_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) {
-            $item->image = url($item->image);
-        });
-        return response()->json($items, 200);
     }
 
     public function getMoreTravelsOrGoNow(Request $request)

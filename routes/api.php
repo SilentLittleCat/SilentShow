@@ -46,5 +46,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/HelloFriends/refreshGoNow', 'HelloFriendsController@refreshGoNow');
 
     Route::get('/HelloFriends/getMoreLoves', 'HelloFriendsController@getMoreLoves');
+    Route::get('/HelloFriends/getMoreDreams', 'HelloFriendsController@getMoreDreams');
     Route::get('/HelloFriends/addLoveNumber', 'HelloFriendsController@addLoveNumber');
 });

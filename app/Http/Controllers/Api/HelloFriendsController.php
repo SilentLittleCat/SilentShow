@@ -58,7 +58,7 @@ class HelloFriendsController extends Controller
 
                 $res->fuId = uniqid('silent-', true);
 
-                $user = HelloFriendsUser::where('openId', $res->openid);
+                $user = HelloFriendsUser::where('openId', $res->openid)->first();
                 if(!$user) {
                     $user = HelloFriendsUser::create([
                         'openId' => $res->openid,

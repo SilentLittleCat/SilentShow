@@ -69,7 +69,7 @@ class HelloFriendsController extends Controller
                     $user->session_key = $res->session_key;
                     $user->save();
                 }
-                return response()->json($user, 200);
+                return response()->json(['status' => 'success', 'fuId' => $user->fuId], 200);
             }
         }
         return response()->json(['status' => 'fail'], 200);

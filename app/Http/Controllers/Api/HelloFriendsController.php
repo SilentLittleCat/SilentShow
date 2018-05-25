@@ -137,6 +137,52 @@ class HelloFriendsController extends Controller
         return response()->json($items, 200);
     }
 
+    public function getMoreLoves(Request $request)
+    {
+        $offset = $request->has('offset') ? $request->input('offset') : 0;
+        $limit = $request->has('limit') ? $request->input('limit') : 5;
+        $kind = $request->has('kind') ? $request->input('kind') : 'left';
+        $user = new HelloFriendsUser();
+        if($kind == 'left') {
+            $items = HelloFriendsLove::orderBy('created_at', 'desc');
+        } else if($kind == 'center') {
+            $items = HelloFriendsLove::orderBy('loveNumber', 'desc')->orderBy('hateNumber', 'asc');
+        } else {
+            $items = HelloFriendsLove::orderBy('hateNumber', 'desc')->orderBy('loveNumber', 'asc');
+        }
+
+        $items = $items->offset($offset)->limit($limit)->get()->each(function ($item) use($user) {
+            $tmp = $user->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
+        });
+
+        return response()->json($items, 200);
+    }
+
+    public function getMoreDreams(Request $request)
+    {
+        $offset = $request->has('offset') ? $request->input('offset') : 0;
+        $limit = $request->has('limit') ? $request->input('limit') : 5;
+        $kind = $request->has('kind') ? $request->input('kind') : 'left';
+        $user = new HelloFriendsUser();
+        if($kind == 'left') {
+            $items = HelloFriendsHero::orderBy('created_at', 'desc');
+        } else {
+            $items = HelloFriendsShow::orderBy('created_at', 'desc');
+        }
+
+        $items = $items->offset($offset)->limit($limit)->get()->each(function ($item) use($user) {
+            $tmp = $user->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
+        });
+
+        return response()->json($items, 200);
+    }
+
     public function getLearnFun(Request $request)
     {
         $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
@@ -277,6 +323,114 @@ class HelloFriendsController extends Controller
         }
     }
 
+    public function getLove(Request $request)
+    {
+        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $model = new HelloFriendsLove();
+        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
+            return response()->json([], 200);
+        } else {
+            $tmp = (new HelloFriendsUser())->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
+            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
+            $hello_friends_user = new HelloFriendsUser();
+            $carbon = Carbon::now();
+            $item->remarks = HelloFriendsLoveRemark::where([
+                'article_id' => $item->id,
+                'fa_id' => 0
+            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
+                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+            });
+            foreach($item->remarks as $tmp) {
+                $tmp->remark_backs = HelloFriendsLoveRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
+                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                foreach($tmp->remark_backs as $back) {
+                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
+                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
+                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
+                }
+            }
+            return response()->json($item, 200);
+        }
+    }
+
+    public function getHero(Request $request)
+    {
+        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $model = new HelloFriendsHero();
+        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
+            return response()->json([], 200);
+        } else {
+            $tmp = (new HelloFriendsUser())->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
+            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
+            $hello_friends_user = new HelloFriendsUser();
+            $carbon = Carbon::now();
+            $item->remarks = HelloFriendsHeroRemark::where([
+                'article_id' => $item->id,
+                'fa_id' => 0
+            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
+                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+            });
+            foreach($item->remarks as $tmp) {
+                $tmp->remark_backs = HelloFriendsHeroRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
+                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                foreach($tmp->remark_backs as $back) {
+                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
+                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
+                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
+                }
+            }
+            return response()->json($item, 200);
+        }
+    }
+
+    public function getShow(Request $request)
+    {
+        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
+        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $model = new HelloFriendsShow();
+        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
+            return response()->json([], 200);
+        } else {
+            $tmp = (new HelloFriendsUser())->where('fuId', $item->fuId)->first();
+            $item->avatar = $tmp ? $tmp->avatarUrl : '';
+            $item->nickName = $tmp ? $tmp->nickName : '';
+            $item->remarkDate = $this->getRemarkDate($item->created_at);
+            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
+            $hello_friends_user = new HelloFriendsUser();
+            $carbon = Carbon::now();
+            $item->remarks = HelloFriendsShowRemark::where([
+                'article_id' => $item->id,
+                'fa_id' => 0
+            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
+                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
+                $item->avatar = $tmp ? $tmp->avatarUrl : '';
+                $item->nickName = $tmp ? $tmp->nickName : '';
+            });
+            foreach($item->remarks as $tmp) {
+                $tmp->remark_backs = HelloFriendsShowRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
+                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
+                foreach($tmp->remark_backs as $back) {
+                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
+                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
+                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
+                }
+            }
+            return response()->json($item, 200);
+        }
+    }
+
     public function sendLearnFunRemark(Request $request)
     {
         if(!$request->has('silent_user_id') || ($item = HelloFriendsUser::where('fuId', $request->input('silent_user_id'))->first()) == null) {
@@ -389,112 +543,21 @@ class HelloFriendsController extends Controller
         return response()->json(['status' => 'success', 'type' => 'second', 'data' => $res], 200);
     }
 
-    public function getLove(Request $request)
+    public function sendGoNow(Request $request)
     {
-        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
-        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
-        $model = new HelloFriendsLove();
-        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
-            return response()->json([], 200);
-        } else {
-            $tmp = (new HelloFriendsUser())->where('fuId', $item->fuId)->first();
-            $item->avatar = $tmp ? $tmp->avatarUrl : '';
-            $item->nickName = $tmp ? $tmp->nickName : '';
-            $item->remarkDate = $this->getRemarkDate($item->created_at);
-            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
-            $hello_friends_user = new HelloFriendsUser();
-            $carbon = Carbon::now();
-            $item->remarks = HelloFriendsLoveRemark::where([
-                'article_id' => $item->id,
-                'fa_id' => 0
-            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
-                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
-                $item->avatar = $tmp ? $tmp->avatarUrl : '';
-                $item->nickName = $tmp ? $tmp->nickName : '';
-            });
-            foreach($item->remarks as $tmp) {
-                $tmp->remark_backs = HelloFriendsLoveRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
-                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
-                foreach($tmp->remark_backs as $back) {
-                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
-                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
-                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
-                }
-            }
-            return response()->json($item, 200);
+        if(!$request->has('content') || empty($request->input('content'))) {
+            return response()->json(['status' => 'fail'], 200);
         }
-    }
+        if(!$request->has('fuId') || !($user = HelloFriendsUser::where('fuId', $request->input('fuId'))->first())) {
+            return response()->json(['status' => 'fail'], 200);
+        }
 
-    public function getHero(Request $request)
-    {
-        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
-        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
-        $model = new HelloFriendsHero();
-        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
-            return response()->json([], 200);
-        } else {
-            $tmp = (new HelloFriendsUser())->where('fuId', $item->fuId)->first();
-            $item->avatar = $tmp ? $tmp->avatarUrl : '';
-            $item->nickName = $tmp ? $tmp->nickName : '';
-            $item->remarkDate = $this->getRemarkDate($item->created_at);
-            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
-            $hello_friends_user = new HelloFriendsUser();
-            $carbon = Carbon::now();
-            $item->remarks = HelloFriendsHeroRemark::where([
-                'article_id' => $item->id,
-                'fa_id' => 0
-            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
-                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
-                $item->avatar = $tmp ? $tmp->avatarUrl : '';
-                $item->nickName = $tmp ? $tmp->nickName : '';
-            });
-            foreach($item->remarks as $tmp) {
-                $tmp->remark_backs = HelloFriendsHeroRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
-                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
-                foreach($tmp->remark_backs as $back) {
-                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
-                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
-                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
-                }
-            }
-            return response()->json($item, 200);
-        }
-    }
+        (new HelloFriendsGoNow())->create([
+            'fuId' => $request->input('fuId'),
+            'content' => $request->input('content')
+        ]);
 
-    public function getShow(Request $request)
-    {
-        $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
-        $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
-        $model = new HelloFriendsShow();
-        if(!$request->has('id') || ($item = $model->find($request->input('id'))) == null) {
-            return response()->json([], 200);
-        } else {
-            $tmp = (new HelloFriendsUser())->where('fuId', $item->fuId)->first();
-            $item->avatar = $tmp ? $tmp->avatarUrl : '';
-            $item->nickName = $tmp ? $tmp->nickName : '';
-            $item->remarkDate = $this->getRemarkDate($item->created_at);
-            $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
-            $hello_friends_user = new HelloFriendsUser();
-            $carbon = Carbon::now();
-            $item->remarks = HelloFriendsShowRemark::where([
-                'article_id' => $item->id,
-                'fa_id' => 0
-            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
-                $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
-                $item->avatar = $tmp ? $tmp->avatarUrl : '';
-                $item->nickName = $tmp ? $tmp->nickName : '';
-            });
-            foreach($item->remarks as $tmp) {
-                $tmp->remark_backs = HelloFriendsShowRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
-                $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
-                foreach($tmp->remark_backs as $back) {
-                    $tmp_1 = HelloFriendsUser::where('fuId', $back->fuId)->first();
-                    $back->nickName = $tmp_1 ? $tmp_1->nickName : '';
-                    $back->remarkDate = $this->getRemarkDate($tmp->created_at);
-                }
-            }
-            return response()->json($item, 200);
-        }
+        return response()->json(['status' => 'success'], 200);
     }
 
     public function getMoreTravelsOrGoNow(Request $request)
@@ -659,23 +722,6 @@ class HelloFriendsController extends Controller
         return '刚刚';
     }
 
-    public function sendGoNow(Request $request)
-    {
-        if(!$request->has('content') || empty($request->input('content'))) {
-            return response()->json(['status' => 'fail'], 200);
-        }
-        if(!$request->has('fuId') || !($user = HelloFriendsUser::where('fuId', $request->input('fuId'))->first())) {
-            return response()->json(['status' => 'fail'], 200);
-        }
-
-        (new HelloFriendsGoNow())->create([
-            'fuId' => $request->input('fuId'),
-            'content' => $request->input('content')
-        ]);
-
-        return response()->json(['status' => 'success'], 200);
-    }
-
     public function refreshGoNow(Request $request)
     {
         $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
@@ -688,52 +734,6 @@ class HelloFriendsController extends Controller
             $item->showContent = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
         });
         return response()->json($go_nows, 200);
-    }
-
-    public function getMoreLoves(Request $request)
-    {
-        $offset = $request->has('offset') ? $request->input('offset') : 0;
-        $limit = $request->has('limit') ? $request->input('limit') : 5;
-        $kind = $request->has('kind') ? $request->input('kind') : 'left';
-        $user = new HelloFriendsUser();
-        if($kind == 'left') {
-            $items = HelloFriendsLove::orderBy('created_at', 'desc');
-        } else if($kind == 'center') {
-            $items = HelloFriendsLove::orderBy('loveNumber', 'desc')->orderBy('hateNumber', 'asc');
-        } else {
-            $items = HelloFriendsLove::orderBy('hateNumber', 'desc')->orderBy('loveNumber', 'asc');
-        }
-
-        $items = $items->offset($offset)->limit($limit)->get()->each(function ($item) use($user) {
-            $tmp = $user->where('fuId', $item->fuId)->first();
-            $item->avatar = $tmp ? $tmp->avatarUrl : '';
-            $item->nickName = $tmp ? $tmp->nickName : '';
-            $item->remarkDate = $this->getRemarkDate($item->created_at);
-        });
-
-        return response()->json($items, 200);
-    }
-
-    public function getMoreDreams(Request $request)
-    {
-        $offset = $request->has('offset') ? $request->input('offset') : 0;
-        $limit = $request->has('limit') ? $request->input('limit') : 5;
-        $kind = $request->has('kind') ? $request->input('kind') : 'left';
-        $user = new HelloFriendsUser();
-        if($kind == 'left') {
-            $items = HelloFriendsHero::orderBy('created_at', 'desc');
-        } else {
-            $items = HelloFriendsShow::orderBy('created_at', 'desc');
-        }
-
-        $items = $items->offset($offset)->limit($limit)->get()->each(function ($item) use($user) {
-            $tmp = $user->where('fuId', $item->fuId)->first();
-            $item->avatar = $tmp ? $tmp->avatarUrl : '';
-            $item->nickName = $tmp ? $tmp->nickName : '';
-            $item->remarkDate = $this->getRemarkDate($item->created_at);
-        });
-
-        return response()->json($items, 200);
     }
 
     public function sendLove(Request $request)

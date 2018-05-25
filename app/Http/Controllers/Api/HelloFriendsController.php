@@ -11,6 +11,7 @@ use App\HelloFriendsLearnFunRemark;
 use App\HelloFriendsLove;
 use App\HelloFriendsLoveHate;
 use App\HelloFriendsLoveRemark;
+use App\HelloFriendsShow;
 use App\HelloFriendsTravel;
 use App\HelloFriendsTravelRemark;
 use App\HelloFriendsUser;
@@ -640,7 +641,7 @@ class HelloFriendsController extends Controller
         if($kind == 'left') {
             $items = HelloFriendsHero::orderBy('created_at', 'desc');
         } else {
-            $items = HelloFriendsLove::orderBy('hateNumber', 'desc')->orderBy('loveNumber', 'asc');
+            $items = HelloFriendsShow::orderBy('created_at', 'desc');
         }
 
         $items = $items->offset($offset)->limit($limit)->get()->each(function ($item) use($user) {

@@ -62,22 +62,21 @@ class HelloFriendsController extends Controller
     {
         $offset = $request->has('offset') ? (int) $request->input('offset') : 0;
         $limit = $request->has('limit') ? (int) $request->input('limit') : 5;
+        $kind = $request->has('kind') ? $request->input('kind') : 'init';
         if(!$request->has('id') || ($item = $this->modal->find($request->input('id'))) == null) {
-            return response()->json([], 200);
+            return response()->json(['status' => 'fail'], 200);
         } else {
-            $item->content = str_replace(array("/r", "/n", "/r/n"), "<br>", $item->content);
             $item->image = url($item->image);
             $hello_friends_user = new HelloFriendsUser();
-            $carbon = Carbon::now();
-            $item->remarks = HelloFriendsLearnFunRemark::where([
+            $remarks = HelloFriendsLearnFunRemark::where([
                 'article_id' => $item->id,
                 'fa_id' => 0
-            ])->orderBy('created_at', 'desc')->get()->each(function ($item) use($hello_friends_user) {
+            ])->orderBy('created_at', 'desc')->offset($offset)->limit($limit)->get()->each(function ($item) use($hello_friends_user) {
                 $tmp = $hello_friends_user->where('fuId', $item->fuId)->first();
                 $item->avatar = $tmp ? $tmp->avatarUrl : '';
                 $item->nickName = $tmp ? $tmp->nickName : '';
             });
-            foreach($item->remarks as $tmp) {
+            foreach($remarks as $tmp) {
                 $tmp->remark_backs = HelloFriendsLearnFunRemark::where('fa_id', $tmp->id)->orderBy('created_at', 'desc')->get();
                 $tmp->remarkDate = $this->getRemarkDate($tmp->created_at);
                 foreach($tmp->remark_backs as $back) {
@@ -86,7 +85,11 @@ class HelloFriendsController extends Controller
                     $back->remarkDate = $this->getRemarkDate($tmp->created_at);
                 }
             }
-            return response()->json($item, 200);
+            if($kind == 'init') {
+                return response()->json(['item' => $item, 'remarks' => $remarks, 'status' => 'success'], 200);
+            } else {
+                return response()->json(['remarks' => $remarks, 'status' => 'success'], 200);
+            }
         }
     }
 

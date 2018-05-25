@@ -17,8 +17,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::get('/HelloFriends/getLearnFun', 'HelloFriendsController@getLearnFun');
+
     Route::get('/HelloFriends/getMoreLearns', 'HelloFriendsController@getMoreLearns');
+
+    Route::get('/HelloFriends/getLearnFun', 'HelloFriendsController@getLearnFun');
 
     Route::get('/HelloFriends/login', 'HelloFriendsController@login');
 

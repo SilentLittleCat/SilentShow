@@ -134,7 +134,7 @@
                             <a href="/friends/heroes/index"><i class="fa fa-angle-right"></i>英雄令</a>
                         </li>
                         <li class="active">
-                            <a href="/friends/shows/index"><i class="fa fa-angle-right"></i>英雄令</a>
+                            <a href="/friends/shows/index"><i class="fa fa-angle-right"></i>秀才华</a>
                         </li>
                     </ul>
                 </li>

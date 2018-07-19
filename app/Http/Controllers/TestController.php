@@ -19,7 +19,7 @@ class TestController extends Controller
         $from = '39.071510,117.190091';
         $to = $from;
         $url = 'https://apis.map.qq.com/ws/distance/v1/?from=' . $from . '&to=' . $to . '&key=' . env('TECENT_POSITION_KEY');
-        $url = 'http://apis.map.qq.com/ws/place/v1/suggestion/?keyword=%E7%BE%8E%E9%A3%9F&region=%E5%8C%97%E4%BA%AC&output=json&key=2DEBZ-SPSK3-ICA3T-Y4Y7D-EDWYQ-WBFVE';
+        $url = 'http://apis.map.qq.com/ws/place/v1/suggestion/?keyword=%E7%BE%8E%E9%A3%9F&region=%E5%8C%97%E4%BA%AC&output=json&key=3DSBZ-QV7HS-T7YO7-63ZYW-L4IMK-NSBJD';
         $res = $client->get($url);
         $res = (string)$res->getBody();
         dd($res);

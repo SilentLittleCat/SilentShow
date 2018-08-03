@@ -84,22 +84,22 @@
                     </div>
                 </div>
             </div>
-            <div class="section">
-                <div class="sg-center-container">
-                    <div class="sg-center-box">
-                        <div class="sg-project-en-title">XCX</div>
-                        <div class="sg-project-zh-title">微信小程序后台管理</div>
-                        <div class="sg-project-divider"></div>
-                        <div class="sg-project-label-group">
-                            @include('share.project_label', ['title' => ['小程序模板', '快速开始', '抢占市场', '多种模板', '案例丰富', '后台灵活控制']])
-                        </div>
-                        <div class="sg-project-divider sg-transparent"></div>
-                        <div class="sg-project-btn-group">
-                            <a href="https://u3.9026.com" target="_blank" class="btn btn-danger">去后台看看</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{--<div class="section">--}}
+                {{--<div class="sg-center-container">--}}
+                    {{--<div class="sg-center-box">--}}
+                        {{--<div class="sg-project-en-title">XCX</div>--}}
+                        {{--<div class="sg-project-zh-title">微信小程序后台管理</div>--}}
+                        {{--<div class="sg-project-divider"></div>--}}
+                        {{--<div class="sg-project-label-group">--}}
+                            {{--@include('share.project_label', ['title' => ['小程序模板', '快速开始', '抢占市场', '多种模板', '案例丰富', '后台灵活控制']])--}}
+                        {{--</div>--}}
+                        {{--<div class="sg-project-divider sg-transparent"></div>--}}
+                        {{--<div class="sg-project-btn-group">--}}
+                            {{--<a href="https://u3.9026.com" target="_blank" class="btn btn-danger">去后台看看</a>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
             <div class="section">
                 <div class="sg-center-container">
                     <div class="sg-center-box">
@@ -137,7 +137,7 @@
         </div>
         <div class="sg-right-nav">
             <a class="sg-right-item" href="#sg-ofs">OFS</a>
-            <a class="sg-right-item" href="#sg-xcx">XCX</a>
+            {{--<a class="sg-right-item" href="#sg-xcx">XCX</a>--}}
             <a class="sg-right-item" href="#sg-isms">ISMS</a>
             <a class="sg-right-item" href="#sg-vmbm">VMBM</a>
         </div>
@@ -148,8 +148,8 @@
 <script type="text/javascript">
     $(function () {
         $('#sg-full-page').fullpage({
-            anchors: ['sg-ofs', 'sg-xcx', 'sg-isms', 'sg-vmbm'],
-            sectionsColor: ['#007bff', '#6610f2', '#e83e8c', '#dc3545'],
+            anchors: ['sg-ofs', 'sg-isms', 'sg-vmbm'],
+            sectionsColor: ['#007bff', '#e83e8c', '#dc3545'],
             css3: true,
             navigation: true,
             navigationPosition: 'left',

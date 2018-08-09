@@ -20,7 +20,7 @@
 
         <img src="/img/icon/project.png" width="300px">
         {{--<button type="button" class="btn btn-danger">QQ:2858097617</button>--}}
-        <img src="/img/icon/qr-code.jpg" width="200px">
+        <img src="/img/qr-code.jpg" width="200px">
     </div>
 @endsection
 

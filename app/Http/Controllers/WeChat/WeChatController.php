@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WeChat;
 
+use App\Http\Controllers\Controller;
 use Log;
 
 class WeChatController extends Controller

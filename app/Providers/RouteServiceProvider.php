@@ -24,6 +24,8 @@ class RouteServiceProvider extends ServiceProvider
 
     protected $friends_namespace = 'App\Http\Controllers\Friends';
 
+    protected $wechat_namespace = 'App\Http\Controllers\WeChat';
+
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -52,6 +54,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapGuestRoutes();
 
         $this->mapFriendsRoutes();
+
+        $this->mapWeChatRoutes();
     }
 
     /**
@@ -105,5 +109,13 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('web')
             ->namespace($this->friends_namespace)
             ->group(base_path('routes/friends.php'));
+    }
+
+    protected function mapWeChatRoutes()
+    {
+        Route::prefix('wechat')
+            ->middleware('web')
+            ->namespace($this->wechat_namespace)
+            ->group(base_path('routes/wechat.php'));
     }
 }
